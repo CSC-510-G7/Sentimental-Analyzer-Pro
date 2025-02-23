@@ -3,64 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown on Click</title>
+    <title>Profile Page</title>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "images/favicon-black.ico" %}" title="Favicon"/>
+    <link rel="stylesheet" href="{% static "css/bg.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/dynamic.css" %}">
+    <link rel="stylesheet" href="{% static "css/nemina.css" %}">
+    <link rel="stylesheet" href="{% static "css/header.css" %}">
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
+    <link href="{% static "css/animate.css" %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-/RSva8ME+iHQsLO+St7Xg/SJ9ufViOc6pkKAAMfvhN/EFZSC0HVivYOY1DOtTiLEooL6G6Ae2H+pfN43f8r5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
         }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 150px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 5px;
+        .form-group label {
+            margin-right: 1rem;
+            min-width: 100px;
         }
-
-        .dropdown-content a {
-            color: black;
-            padding: 10px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
+        .form-group input {
+            flex: 1;
         }
     </style>
 </head>
 <body>
-    <h1>Profile.html</h1>
-
-    <div class="dropdown">
-        <a href="#" class="dropbtn" onclick="toggleDropdown(event)">Click Me</a>
-        <div class="dropdown-content" id="dropdownMenu">
-            <a href="#">Option 1</a>
-            <a href="#">Option 2</a>
-            <a href="#">Option 3</a>
-        </div>
+    <div id="wrapper">
+        <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
+            <div id="header" class="nav-collapse navbar">
+                <div class="row clearfix">
+                    <div class="col-1">
+                        <aside>
+                            <ul class="social-icons">
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#gallery">Product Analysis</a></li>
+                                <li><a href="#news">News Analysis</a></li>
+                                <li><a href="#live-speech">Live Speech</a></li>
+                                <li><a href="#text">Text Analysis</a></li>
+                                <li><a href="#batchTextField">Batch Analysis</a></li>
+                                <li><a href="#document">Doc. Analysis</a></li>
+                                <li><a href="#audio">Audio Analysis</a></li>
+                                <select name="social" id="media" onchange="location.href = this.value;">
+                                    <option value="#facebook">Social Media</option>
+                                    <option value="#facebook">Facebook</option>
+                                    <option value="#twitter">Twitter</option>
+                                    <option value="#reddit">Reddit</option>
+                                </select>
+                                <li><a href="#image">Image Analysis</a></li>
+                                {% if user.is_authenticated %}
+                                    <li style="color: black; position: relative;">
+                                        <div class="dropdown">
+                                            <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
+                                            <div class="dropdown-content">
+                                                <a href="{% url 'profile' %}">Profile</a>
+                                                <a href="{% url 'settings' %}">Settings</a>
+                                                <a href="{% url 'logout' %}">Logout</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </aside>
+                        <div id="nav-trigger"><span></span></div>
+                        <nav id="nav-mobile"></nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main id="content" class="bgcol">
+            <section id="about" class="introduction scrollto">
+                <div class="row clearfix" >
+                    <div class="section-heading">
+                        <h2 class="section-title">Personal Information</h2>
+                        <form action="{% url 'update_profile' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="first_name" class="form-label">First Name:</label>
+                                <input type="text" id="first_name" class="line-edit" name="first_name" value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name" class="form-label">Last Name:</label>
+                                <input type="text" id="last_name" class="line-edit" name="last_name" value="{{ user.last_name }}" required>
+                            </div>
+                            <button type="submit" class="button">Update</button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+              </section>
+            <section id="about" class="introduction scrollto">
+                <div class="row no-padding-bottom clearfix">
+                    <div class="col-1" style="padding-left: 0px;">
+                        <div class="section-heading">
+                            <h2 class="section-title">Account Information</h2>
+                            <form action="{% url 'update_account' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="username" class="form-label">Username:</label>
+                                    <input type="text" id="username" class="line-edit" name="username" value="{{ user.username }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address:</label>
+                                    <input type="email" id="email" class="line-edit" name="email" value="{{ user.email }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact_number" class="form-label">Contact Number:</label>
+                                    <input type="text" id="contact_number" class="line-edit" name="contact_number" value="{{ user.profile.contact_number }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="2fa_method" class="form-label">2FA Method:</label>
+                                    <select id="2fa_method" class="line-edit" name="2fa_method" required>
+                                        <option value="sms" {% if user.profile.two_fa_method == 'sms' %}selected{% endif %}>SMS</option>
+                                        <option value="email" {% if user.profile.two_fa_method == 'email' %}selected{% endif %}>Email</option>
+                                        <option value="authenticator" {% if user.profile.two_fa_method == 'authenticator' %}selected{% endif %}>Authenticator App</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input type="password" id="password" class="line-edit" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password" class="form-label">Confirm Password:</label>
+                                    <input type="password" id="confirm_password" class="line-edit" name="confirm_password" required>
+                                </div>
+                                <button type="submit" class="button">Update Account</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Other sections here -->
+            <section id="news" class="scrollto clearfix">
+                <div class="row no-padding-bottom clearfix">
+                   <div class="col-1">
+                      <div class="section-heading">
+                         <h2 class="section-title">Privacy Preference</h2>
+                        <div class="form-group">
+                            <h3>Opt out of sale/sharing of personal data</h3>
+                            <p>We use the data you share with us in a few ways, like managing your account and personalizing your experience. Your data is shared with merchant partners, third parties or affiliates for providing rewards and benefits to you and for marketing purposes. In certain jurisdictions, this use may be considered a “sale” or “sharing” of personal information. If you do not want us to share your personal information with the third party in this way, you have the right to opt-out. To learn more about what information we collect and why, please read our <a href="/privacy-policy" target="_blank">Privacy Policy</a>.</p>
+                            <form action="{% url 'opt_out' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="button">Opt out</button>
+                            </form>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+             </section>
+        </main>
+        <footer id="landing-footer" class="clearfix">
+            <div class="row clearfix">
+                <div class="col-2">
+                    <p id="dev">
+                        &copy; Extended by Team 06: <a href="https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.git">Sentimental-Analyzer-Pro</a>
+                    </p>
+                </div>
+                <div class="col-2 disclaimer">
+                    <div class="team-members">
+                        <p>Team Members:</p>
+                        <p>Md Jakaria&nbsp; 	Autumn Wright</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-
-    <script>
-        function toggleDropdown(event) {
-            event.preventDefault(); // Prevent default anchor action
-            let dropdown = document.getElementById("dropdownMenu");
-            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-        }
-
-        // Close the dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                let dropdown = document.getElementById("dropdownMenu");
-                if (dropdown.style.display === "block") {
-                    dropdown.style.display = "none";
-                }
-            }
-        };
-    </script>
-
+    <script src="{% static "js/jquery.1.8.3.min.js" %}"></script>
+    <script src="{% static "js/wow.min.js" %}"></script>
+    <script src="{% static "js/featherlight.min.js" %}"></script>
+    <script src="{% static "js/featherlight.gallery.min.js" %}"></script>
+    <script src="{% static "js/jquery.enllax.min.js" %}"></script>
+    <script src="{% static "js/jquery.scrollUp.min.js" %}"></script>
+    <script src="{% static "js/jquery.easing.min.js" %}"></script>
+    <script src="{% static "js/jquery.stickyNavbar.min.js" %}"></script>
+    <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+    <script src="{% static "js/images-loaded.min.js" %}"></script>
+    <script src="{% static "js/lightbox.min.js" %}"></script>
+    <script src="{% static "js/site.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

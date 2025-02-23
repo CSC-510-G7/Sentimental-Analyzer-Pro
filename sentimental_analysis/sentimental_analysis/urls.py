@@ -46,6 +46,10 @@ urlpatterns = [
     # ... other url patterns ...
     path('profile/', realworld.views.profile_view, name='profile'),
     path('settings/', realworld.views.settings_view, name='settings'),
+    path('update_profile/', realworld.views.update_profile, name='update_profile'),
+    path('update_account/', realworld.views.update_account, name='update_account'),
+    path('opt_out/', realworld.views.opt_out, name='opt_out'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

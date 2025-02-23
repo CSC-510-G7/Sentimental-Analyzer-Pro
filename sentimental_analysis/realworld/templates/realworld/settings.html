@@ -1,58 +1,477 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown on Hover</title>
-    <link rel="stylesheet" href="{% static "css/dynamic.css" %}">
-    <style>
+<html>
+   {% load static %}
+   <head lang="en">
+      <meta charset="UTF-8">
+      <title>S.A.P</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+      <link rel="shortcut icon" href="{% static "images/favicon-black.ico" %}" title="Favicon"/>
+      <link rel="stylesheet" href="{% static "css/bg.css" %}">
+      <link rel="stylesheet" href="{% static "css/style.css" %}">
+      <link rel="stylesheet" href="{% static "css/dynamic.css" %}">
+      <link rel="stylesheet" href="{% static "css/nemina.css" %}">
+      <link rel="stylesheet" href="{% static "css/header.css" %}">
+      <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"">
+      <link href="{% static "css/animate.css" %}" rel="stylesheet" type="text/css">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-/RSva8ME+iHQsLO+St7Xg/SJ9ufViOc6pkKAAMfvhN/EFZSC0HVivYOY1DOtTiLEooL6G6Ae2H+pfN43f8r5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+   </head>
+   <body>
+      <style>
+         .form-label {
+         display: block;
+         font-weight: bold;
+         margin-bottom: 10px;
+         text-align: left;
+         }
+         .hidden {
+         display: none;
+         }
+         .drop-container {
+         position: relative;
+         display: flex;
+         gap: 10px;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         height: 160px;
+         padding: 20px;
+         border-radius: 10px;
+         border: 2px dashed #555;
+         color: #444;
+         cursor: pointer;
+         transition: background .2s ease-in-out, border .2s ease-in-out;
+         }
+         .drop-container:hover {
+         background: #eee;
+         border-color: #111;
+         }
+         .drop-container:hover .drop-title {
+         color: #222;
+         }
+         .drop-title {
+         color: #444;
+         font-size: 20px;
+         font-weight: bold;
+         text-align: center;
+         transition: color .2s ease-in-out;
+         }
+         .mt-4 {
+            margin-top: 2rem;
+         }
+         .line-edit {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+         }
+         textarea.line-edit {
+            resize: vertical;
+            min-height: 100px;
+         }
+         .button {
+            margin-top: 10px;
+         }
+      </style>
+      <div id="preloader">
+         <div id="status" class="la-ball-triangle-path">
+            <div></div>
+            <div></div>
+            <div></div>
+         </div>
+      </div>
+      <div class="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
+         <div class="top-border wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"></div>
+         <div class="right-border wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;"></div>
+         <div class="bottom-border wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></div>
+         <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
+      </div>
+      <div id="wrapper">
+         <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
+         <div id="header" class="nav-collapse navbar">
+            <div class="row clearfix" >
+               <div class="col-1">
+                 
+                  <aside>
+                     <ul class="social-icons">
+                        
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#gallery">Product Analysis</a></li>
+                        <li><a  href="#news">News Analysis</a></li>
+                        <li><a href="#live-speech">Live Speech</a></li>
+                        <li><a  href="#text">Text Analysis</a></li>
+                        <li><a  href="#batchTextField">Batch Analysis</a></li>
+                        
+                        <li><a href="#document">Doc. Analysis</a></li>
+                        <li><a href="#audio">Audio Analysis</a></li>
+                        
+                        <select name="social" id="media" onchange="location.href = this.value;">
+                           <option value="#facebook">Social Media</option>
+                           <option value="#facebook">Facebook</option>
+                           <option value="#twitter">Twitter</option>
+                           <option value="#reddit">Reddit</option>
+                       </select>
+                        <li><a href="#image">Image Analysis</a></li>
+                         {% if user.is_authenticated %}
+                              <li style="color: black; position: relative;">
+                                  <div class="dropdown">
+                                    <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'profile' %}">Profile</a>
+                                        <a href="{% url 'settings' %}">Settings</a>
+                                        <a href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                              </li>
+                            {% else %}
+                             <li><a href="{% url 'login' %}">Login</a></li>
+                         {% endif %}
+                     </ul>
+                  </aside>
+                  <div id="nav-trigger"><span></span></div>
+                  <nav id="nav-mobile"></nav>
+               </div>
+            </div>
+         
+           
+            </div>
+
+             <div class="sep">   </div>
+         </header>
+         
+         <main id="content" class="bgcol">
+            <section id="about" class="introduction scrollto">
+              <div class="row clearfix" >
+                  
+                <!-- <div class="col-1-2"></div>
+                <div class="col-1-2"></div> -->
+              </div>
+              </div>
+            </section>
+            <section id="services" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1" style="padding-left: 0px;">
+                     <div class="section-heading">
+                        <h2 class="section-title">Image Analysis</h2>
+                        <p class="section-subtitle">Upload an Image and Sentiment Analyzer Pro will analyze the image and report back the sentiments felt by the person like  happy, sad, etc.</p>
+                        <form action = "{% url "inputimage" %}" method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}    
+                        <label for="text" class="drop-container" id="dropcontainer">
+                        <span class="drop-title">Drop files here</span>
+                        or
+                        <input type="file" id="file" name="document" accept="text/plain" required>
+                        </label>
+                        <button type="submit" id = "myButton"class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="news" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1">
+                     <div class="section-heading">
+                        <h2 class="section-title">News Analysis</h2>
+                        <p class="section-subtitle">Type the news topic and Sentiment Analyzer Pro will analyze the news.</p>
+                        <form action = "{% url "news analysis" %}" method = "post">
+                        {% csrf_token %}
+                        <label for="blogname" class="form-label">Topic Name:</label>
+                        <input type="text" id="topicname" class="line-edit" name="topicname" required>
+                        <button type="submit" id="topicButton" class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated.</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="document" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1" style="padding-left: 0px;">
+                     <div class="section-heading">
+                        <h2 class="section-title">Document Analysis</h2>
+                        <p class="section-subtitle">Upload a pdf or docx file and Sentiment Analyzer Pro will analyze the text in it and report back the sentiments.</p>
+                        <form action = "{% url "input" %}" method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}    
+                        <label for="text" class="drop-container" id="dropcontainer">
+                        <span class="drop-title">Drop files here</span>
+                        or
+                        <input type="file" id="file" name="document" accept="text/plain" required>
+                        </label>
+                        <button type="submit" id = "myButton"class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <!-- <section id="text" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1" style="padding-left: 0px;">
+                     <div class="section-heading">
+                        <h2 class="section-title">Text Analysis</h2>
+                        <form action = "{% url "text analysis" %}" method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="textField" class="form-label">Write here:</label>
+                        <input type="textField" id="text" class="line-edit" name="textField" required>
+                        <button type="submit" id ="myButton2"class="button">Analyze</button>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section> -->
+            <section id="text" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                   <div class="col-1" style="padding-left: 0px;">
+                       <div class="section-heading">
+                           <h2 class="section-title">Text Analysis</h2>
+                           <p class="section-subtitle">Type the text you want to analyze and Sentiment Analyzer Pro will report back the sentiments.</p>
+                           
+                           <!-- Single Text Analysis -->
+                           <form action="{% url 'text analysis' %}" method="post" enctype="multipart/form-data">
+                               {% csrf_token %}
+                               <label for="textField" class="form-label">Write here:</label>
+                               <input type="textField" id="text" class="line-edit" name="textField" required>
+                               <button type="submit" id="myButton2" class="button">Analyze Single Text</button>
+                           </form>
+           
+                           <!-- Batch Text Analysis -->
+                           <form action="{% url 'batch_text_analysis' %}" method="post" enctype="multipart/form-data" class="mt-4">
+                               {% csrf_token %}
+                               <label for="batchTextField" class="form-label">Multiple Texts (one per line):</label>
+                               <textarea id="batchTextField" class="line-edit" name="batchTextField" rows="5" required></textarea>
+                               <button type="submit" id="batchButton" class="button">Analyze Multiple Texts</button>
+                           </form>
+                       </div>
+                   </div>
+               </div>
+           </section>
+            <section id="audio" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1" style="padding-left: 0px;">
+                     <div class="section-heading">
+                        <h2 class="section-title">Audio Analysis</h2>
+                        <p class="section-subtitle">Upload an audio file and Sentiment Analyzer Pro will analyze the audio and report back the sentiments.</p>
+                        <form action = "{% url "audio analysis" %}" method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}    
+                        <label for="audio" class="drop-container" id="dropcontainer">
+                        <span class="drop-title">Drop audio file here</span>
+                        or
+                        <input type="file" id="file" name="audioFile" accept="audio/mpeg, audio/wav, audio/ogg" required>
+                        </label>
+                        <button type="submit" id = "myButton" class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="live-speech" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1" style="padding-left: 0px;">
+                     <div class="section-heading">
+                        <h2 class="section-title">Live Speech Analysis</h2>
+                        <p class="section-subtitle">Record a live speech and Sentiment Analyzer Pro will analyze a live speech and report back the sentiments.</p>
+                        <form action = "{% url "live speech analysis" %}" method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="liveaudioFile" accept="audio/*" capture="microphone" id="audio-input" style="display: none">
+                        <h4> <label id="labelForRecording"></label></h4>
+                        <button type="button" id="recordButton" class="button">Start Recording</button>
+                        <button type="submit" id = "submitButton" class="button">Analyze</button>
+                        <!-- <button type="button" id="stop-button" style="display: none;">Stop Recording</button> -->
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               
+            </section>
+            <section id="facebook" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1">
+                     <div class="section-heading">
+                        <h2 class="section-title">Facebook Analysis</h2>
+                        <p class="section-subtitle">Paste the Facebook URL and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
+                        <form action = "{% url "fb analysis" %}" method = "post">
+                        {% csrf_token %}
+                        <label for="blogname" class="form-label">Paste facebook URL:</label>
+                        <input type="text" id="blogname" class="line-edit" name="blogname" required>
+                        <button type="submit" id = "myButton"class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated.</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="twitter" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1">
+                     <div class="section-heading">
+                        <h2 class="section-title">Twitter Analysis</h2>
+                        <p class="section-subtitle">Paste the Twitter URL and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
+                        <form action = "{% url "twitter analysis" %}" method = "post">
+                        {% csrf_token %}
+                        <label for="blogname" class="form-label">Paste Twitter URL:</label>
+                        <input type="text" id="blogname" class="line-edit" name="blogname" required>
+                        <button type="submit" id = "myButton"class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated.</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="reddit" class="scrollto clearfix">
+               <div class="row no-padding-bottom clearfix">
+                  <div class="col-1">
+                     <div class="section-heading">
+                        <h2 class="section-title">Reddit Analysis</h2>
+                        <p class="section-subtitle">Paste the Reddit URL and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
+                        <form action = "{% url "reddit analysis" %}" method = "post">
+                        {% csrf_token %}
+                        <label for="blogname" class="form-label">Paste Reddit URL:</label>
+                        <input type="text" id="blogname" class="line-edit" name="blogname" required>
+                        <button type="submit" id = "myButton"class="button">Analyze</button>
+                        <div id="message" class="hidden">Wait till the results are generated.</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            
+         </html>
+         <footer id="landing-footer" class="clearfix">
+            <div class="row clearfix">
+              <div class="col-2">
+                <p id="dev">
+                    &copy; Extended by Team 06: <a href="https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.git">Sentimental-Analyzer-Pro</a>
+                </p>
+              </div>
+              <div class="col-2 disclaimer">
+                <div class="team-members">
+                  <p>Team Members:</p>
+                    <p>Md Jakaria&nbsp; 	Autumn Wright</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+          
+          
+          
+          
+          
+          
+          
+        
+      </div>
+      <script src="{% static "js/jquery.1.8.3.min.js" %}"></script>
+      <script src="{% static "js/wow.min.js" %}"></script>
+      <script src="{% static "js/featherlight.min.js" %}"></script>
+      <script src="{% static "js/featherlight.gallery.min.js" %}"></script>
+      <script src="{% static "js/jquery.enllax.min.js" %}"></script>
+      <script src="{% static "js/jquery.scrollUp.min.js" %}"></script>
+      <script src="{% static "js/jquery.easing.min.js" %}"></script>
+      <script src="{% static "js/jquery.stickyNavbar.min.js" %}"></script>
+      <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+      <script src="{% static "js/images-loaded.min.js" %}"></script>
+      <script src="{% static "js/lightbox.min.js" %}"></script>
+      <script src="{% static "js/site.js" %}"></script>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 150px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 5px;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 10px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  /* Show dropdown on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+      <script>
 
-
-    </style>
-</head>
-<body>
-
-    <div class="dropdown">
-        <a href="#" class="dropbtn">Hover Me</a>
-        <div class="dropdown-content">
-            <a href="#">Option 1</a>
-            <a href="#">Option 2</a>
-            <a href="#">Option 3</a>
-        </div>
-    </div>
-
-</body>
+       
+         
+         const dropContainer = document.getElementById("dropcontainer")
+         const fileInput = document.getElementById("file")
+         
+         dropContainer.addEventListener("dragover", (e) => {
+             // prevent default to allow drop
+             e.preventDefault()
+         }, false)
+         
+         dropContainer.addEventListener("dragenter", () => {
+             dropContainer.classList.add("drag-active")
+         })
+         
+         dropContainer.addEventListener("dragleave", () => {
+             dropContainer.classList.remove("drag-active")
+         })
+         
+         dropContainer.addEventListener("drop", (e) => {
+             e.preventDefault()
+             dropContainer.classList.remove("drag-active")
+             fileInput.files = e.dataTransfer.files
+         })
+         
+         let mediaRecorder;
+         const audioChunks = [];
+         var label = document.getElementById('labelForRecording')
+         document.getElementById('recordButton').addEventListener('click', async () => {
+             if (recordButton.textContent === 'Start Recording') {
+                 try {
+                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                     mediaRecorder = new MediaRecorder(stream);
+         
+                     mediaRecorder.ondataavailable = (event) => {
+                         if (event.data.size > 0) {
+                             audioChunks.push(event.data);
+                         }
+                     };
+         
+                     mediaRecorder.onstop = () => {
+                         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                         sendDataToDjango(audioBlob);
+                     };
+         
+                     mediaRecorder.start();
+                     label.textContent = "Recording has started."
+                     recordButton.textContent = 'Stop Recording';
+                 } catch (error) {
+                     console.error('Error accessing microphone:', error);
+                 }
+             } else {
+                 audioChunks.length = 0;
+                 label.textContent = "Recording is completed. Kindly, press analyze to do sentimental analysis"
+                 mediaRecorder.stop();
+                 recordButton.textContent = 'Start Recording';
+             }
+         });
+         let count = 1;
+         function sendDataToDjango(audioBlob) {
+             const formData = new FormData();
+             const filename = `${count}.wav`;
+             formData.append('liveaudioFile', audioBlob, filename);
+         
+             fetch('/recordAudio/', {
+                 method: 'POST',
+                 body: formData,
+             })
+             .then(response => {
+                 if (response.status === 200) {
+                     console.log('Audio sent to Django successfully.');
+                 } else {
+                     console.error('Failed to send audio to Django.');
+                     // Handle error
+                 }
+             })
+             .catch(error => {
+                 console.error('Error sending audio to Django:', error);
+             });
+         
+             count++;
+         }
+         document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+               const submitButton = this.querySelector('button[type="submit"]');
+               submitButton.disabled = true;
+               submitButton.textContent = 'Processing...';
+            });
+         });
+      </script>
+   </body>
 </html>

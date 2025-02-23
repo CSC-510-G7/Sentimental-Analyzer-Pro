@@ -33,7 +33,60 @@ from django.contrib.auth.decorators import login_required
 from nltk import pos_tag
 from nltk.tokenize import sent_tokenize
 from .cache_manager import AnalysisCache
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib import messages
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        return redirect('profile')
+    return render(request, 'realworld/profile.html')
+
+@login_required
+def update_account(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        contact_number = request.POST.get('contact_number')
+        two_fa_method = request.POST.get('2fa_method')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('profile')
+        
+        user = request.user
+        user.username = username
+        user.email = email
+        user.set_password(password)
+        user.save()
+
+        profile = user.profile
+        profile.contact_number = contact_number
+        profile.two_fa_method = two_fa_method
+        profile.save()
+
+        messages.success(request, "Account updated successfully.")
+        return redirect('profile')
+    return render(request, 'realworld/profile.html')
+
+@login_required
+def opt_out(request):
+    user = request.user
+    profile = user.profile
+    profile.opted_out = True
+    profile.save()
+    messages.success(request, "You have opted out of the sale/sharing of your personal data.")
+    return redirect('profile')
 
 def profile_view(request):
     # Your view logic here
