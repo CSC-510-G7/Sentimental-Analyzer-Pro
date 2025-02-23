@@ -67,21 +67,3 @@ $(window).load(function () { // makes sure the whole site is loaded
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const usernameLink = document.getElementById('username-link');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-
-    usernameLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-        usernameLink.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!usernameLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.style.display = 'none';
-            usernameLink.classList.remove('active');
-        }
-    });
-});
-
