@@ -20,8 +20,10 @@ from django.urls import re_path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
-import realworld.views
+import realworld.views  # Import views from the realworld app
 from django.contrib.auth import views as auth_views
+from django.urls import path
+
 urlpatterns = [
     re_path('admin/', admin.site.urls),
     re_path('auth/', include('authapp.urls')),
@@ -41,6 +43,9 @@ urlpatterns = [
     re_path(r'^recordAudio', realworld.views.recordaudio, name = 'recordAudio'),
     re_path(r'^newsanalysis',realworld.views.newsanalysis,name = 'news analysis'),
     re_path(r'^batch_analysis',realworld.views.batch_analysis,name='batch_text_analysis'),
+    # ... other url patterns ...
+    path('profile/', realworld.views.profile_view, name='profile'),
+    path('settings/', realworld.views.settings_view, name='settings'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

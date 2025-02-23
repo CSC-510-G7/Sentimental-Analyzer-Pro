@@ -10,6 +10,7 @@
       <link rel="shortcut icon" href="{% static "images/favicon-black.ico" %}" title="Favicon"/>
       <link rel="stylesheet" href="{% static "css/bg.css" %}">
       <link rel="stylesheet" href="{% static "css/style.css" %}">
+      <link rel="stylesheet" href="{% static "css/dynamic.css" %}">
       <link rel="stylesheet" href="{% static "css/nemina.css" %}">
       <link rel="stylesheet" href="{% static "css/header.css" %}">
       <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"">
@@ -17,7 +18,6 @@
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-/RSva8ME+iHQsLO+St7Xg/SJ9ufViOc6pkKAAMfvhN/EFZSC0HVivYOY1DOtTiLEooL6G6Ae2H+pfN43f8r5Gg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 
    </head>
    <body>
@@ -118,8 +118,24 @@
                        </select>
                         <li><a href="#image">Image Analysis</a></li>
                          {% if user.is_authenticated %}
-                             <li><a href="{% url 'logout' %}">Logout</a></li>
-                             <li style="color: black;">Welcome, {{ user.username }}</li>
+                             <!-- <li><a href="{% url 'logout' %}">Logout</a></li> -->
+                             <!-- <li style="color: black;">Welcome, {{ user.username }}</li> -->
+                              <li style="color: black; position: relative;">
+                                  <!-- <ul id="dropdown-menu" class="dropdown-menu">
+                                      <li><a href="{% url 'profile' %}">Profile</a></li>
+                                      <li><a href="{% url 'settings' %}">Settings</a></li>
+                                      <li><a href="{% url 'logout' %}">Logout</a></li>
+                                  </ul> -->
+                                  <div class="dropdown">
+                                    <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
+                                    <!-- <a href="#" class="dropbtn">Hover Me</a> -->
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'profile' %}">Profile</a>
+                                        <a href="{% url 'settings' %}">Settings</a>
+                                        <a href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                              </li>
                             {% else %}
                              <li><a href="{% url 'login' %}">Login</a></li>
                          {% endif %}

@@ -33,7 +33,15 @@ from django.contrib.auth.decorators import login_required
 from nltk import pos_tag
 from nltk.tokenize import sent_tokenize
 from .cache_manager import AnalysisCache
+from django.shortcuts import render
 
+def profile_view(request):
+    # Your view logic here
+    return render(request, 'realworld/profile.html')
+
+def settings_view(request):
+    # Your view logic here
+    return render(request, 'realworld/settings.html')
 
 def pdfparser(data):
     fp = open(data, 'rb')
