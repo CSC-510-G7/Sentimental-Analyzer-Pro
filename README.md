@@ -12,7 +12,7 @@
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/pulls)
 [![github workflow](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml)
 [![Python Style Checker](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml)
-[![Code Formatting](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml)
+[![Code Formatting](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml)
 [![Syntax Check](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml)
 [![codecov](https://codecov.io/gh/jayjoshi1400/Sentimental-Analyzer-Pro/graph/badge.svg?token=T489V1DSQO)](https://codecov.io/gh/jayjoshi1400/Sentimental-Analyzer-Pro)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
