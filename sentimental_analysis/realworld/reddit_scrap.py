@@ -1,17 +1,15 @@
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import praw
 import matplotlib
 matplotlib.use('Agg')  # Use a non-GUI backend for macOS or server environments
-import matplotlib.pyplot as plt
-import pandas as pd
-import os
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import pandas as pd
-import praw
+
 
 def reddit_sentiment_score(data):
     """
     Calculate sentiment scores for a list of text data.
     Args:
-        data (list of str): List of text (e.g., Reddit post title, body, and comments).
+        data (list of str): List of text (e.g.,
+          Reddit post title, body, and comments).
     Returns:
         dict: Sentiment scores for positive, negative, and neutral percentages.
     """
@@ -40,14 +38,18 @@ def reddit_sentiment_score(data):
     print(f"Sentiment Scores: {sentiment_scores}")
     return sentiment_scores
 
+
 def fetch_reddit_post(post_url):
     """
     Fetch the content of a specific Reddit post using its URL.
     """
     reddit = praw.Reddit(
-        client_id='AF9XaDY8GlUIhRq95N2oOA',       # Replace with your Reddit API client ID
-        client_secret='op-VwMxSOaIOtf-xpAgO23CZudiJDA', # Replace with your Reddit API client secret
-        user_agent='reddit_sentiment_analysis:v1.0 (by u/Material-Star-1043)'     # Replace with your user agent
+        client_id='AF9XaDY8GlUIhRq95N2oOA',
+        # Replace with your Reddit API client ID
+        client_secret='op-VwMxSOaIOtf-xpAgO23CZudiJDA',
+        # Replace with your Reddit API client secret
+        user_agent='reddit_sentiment_analysis:v1.0 (by u/Material-Star-1043)'
+        # Replace with your user agent
     )
 
     # Fetch the specific post using the URL
@@ -55,6 +57,8 @@ def fetch_reddit_post(post_url):
     post_content = {
         "title": submission.title,
         "body": submission.selftext,
-        "comments": [comment.body for comment in submission.comments.list()[:10]],  # Fetch top 10 comments
+        "comments": [
+            comment.body for comment in submission.comments.list()[:10]
+        ],  # Fetch top 10 comments
     }
     return post_content

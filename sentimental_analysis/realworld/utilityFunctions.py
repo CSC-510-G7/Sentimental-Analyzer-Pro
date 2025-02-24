@@ -1,13 +1,15 @@
 import re
 import string
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-linkPattern = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+linkPattern = ('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|'
+               '(?:%[0-9a-fA-F][0-9a-fA-F]))+')
 
 
 def removeLinks(text):
     return re.sub(linkPattern, '', text)
+
 
 def stripEmojis(text):
     return text.encode('ascii', 'ignore').decode('ascii')
@@ -16,8 +18,10 @@ def stripEmojis(text):
 def stripPunctuations(text):
     return text.translate(str.maketrans('', '', string.punctuation))
 
+
 def stripExtraWhiteSpaces(text):
-    return re.sub(' +',' ',text.strip())
+    return re.sub(' +', ' ', text.strip())
+
 
 def removeSpecialChar(text):
     return re.sub(r'[^a-zA-Z0-9\s]+', '', text).strip()

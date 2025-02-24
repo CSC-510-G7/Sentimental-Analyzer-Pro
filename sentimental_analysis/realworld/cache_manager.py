@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from functools import lru_cache
+
 
 class AnalysisCache:
     def __init__(self, cache_file="analysis_cache.json", cache_duration=3600):
@@ -15,7 +15,7 @@ class AnalysisCache:
                 with open(self.cache_file, 'r') as f:
                     print('Loaded analytics cache')
                     return json.load(f)
-            except:
+            except Exception:
                 return {}
         return {}
 
@@ -27,14 +27,15 @@ class AnalysisCache:
     def get_analysis(self, topic_name, news_text):
         # Create a unique key combining topic and news content
         cache_key = f"{topic_name}_{hash(str(news_text))}"
-        
+
         if cache_key in self.cache:
             cached_data = self.cache[cache_key]
             if time.time() - cached_data['timestamp'] <= self.cache_duration:
                 return cached_data['sentiment'], cached_data['text']
         return None, None
 
-    def set_analysis(self, topic_name, news_text, sentiment_result, final_text):
+    def set_analysis(self, topic_name, news_text, sentiment_result,
+                     final_text):
         cache_key = f"{topic_name}_{hash(str(news_text))}"
         self.cache[cache_key] = {
             'timestamp': time.time(),
@@ -55,7 +56,7 @@ class NewsCache:
             try:
                 with open(self.cache_file, 'r') as f:
                     return json.load(f)
-            except:
+            except Exception:
                 return {}
         return {}
 

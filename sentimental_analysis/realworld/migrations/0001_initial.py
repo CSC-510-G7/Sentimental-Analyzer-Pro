@@ -17,12 +17,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contact_number', models.CharField(blank=True, max_length=15, null=True)),
-                ('two_fa_method', models.CharField(choices=[('sms', 'SMS'), ('email', 'Email'), ('authenticator', 'Authenticator App')], default='sms', max_length=20)),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True, serialize=False,
+                    verbose_name='ID')),
+                ('contact_number', models.CharField(
+                    blank=True, max_length=15, null=True)),
+                ('two_fa_method', models.CharField(
+                    choices=[('sms', 'SMS'), ('email', 'Email'),
+                             ('authenticator', 'Authenticator App')],
+                    default='sms', max_length=20)),
                 ('opted_out', models.BooleanField(default=False)),
-                ('security_pin', models.CharField(blank=True, max_length=4, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('security_pin', models.CharField(
+                    blank=True, max_length=4, null=True)),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
