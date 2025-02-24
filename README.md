@@ -2,18 +2,18 @@
 ## Software Engineering Project for CSC 510
 <!-- links need to be changed -->
 [![DOI](https://zenodo.org/badge/869224666.svg)](https://doi.org/10.5281/zenodo.14226600)
-[![GitHub Release](https://img.shields.io/github/v/release/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/releases)
-[![Build](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/main.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/main.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/releases)
+[![Build](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/main.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/main.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-v3.11+-brightgreen.svg)](https://www.python.org/)
-[![GitHub contributors](https://img.shields.io/github/contributors/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/graphs/contributors)
-[![GitHub Issues](https://img.shields.io/github/issues/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/issues)
-[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/pulls)
-[![github workflow](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml)
-[![Python Style Checker](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml)
+[![GitHub contributors](https://img.shields.io/github/contributors/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/issues)
+[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/jayjoshi1400/Sentimental-Analyzer-Pro)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/pulls)
+[![github workflow](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code_coverage.yml)
+[![Python Style Checker](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/style_checker.yml)
 [![Code Formatting](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/code-format.yml)
-[![Syntax Check](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml/badge.svg)](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml)
+[![Syntax Check](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml/badge.svg)](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/actions/workflows/syntax-checker.yml)
 [![codecov](https://codecov.io/gh/jayjoshi1400/Sentimental-Analyzer-Pro/graph/badge.svg?token=T489V1DSQO)](https://codecov.io/gh/jayjoshi1400/Sentimental-Analyzer-Pro)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![autopep8](https://img.shields.io/badge/code_formatter-autopep8-blue)](https://pypi.org/project/autopep8/)
@@ -99,7 +99,7 @@ Although HTML and CSS are used for the front end, the users can merge the backen
 ### Installation
 1. Clone this project:
 ```
-git clone https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro.git 
+git clone https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.git 
 ```
 2. Make sure you are using Python 3.10 or higher. You can get it here: https://www.python.org/downloads/release/python-3115/
 
@@ -245,7 +245,7 @@ We have done a Case Study for our Sentiment Analysis Project. It can be found [h
 ---
 <a name="contribute"></a>
 ## Eager to Contribute?
-To Contribute to our application, please refer to [CONTRIBUTING.md](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro/blob/master/CONTRIBUTING.md)
+To Contribute to our application, please refer to [CONTRIBUTING.md](https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro/blob/master/CONTRIBUTING.md)
 
 ---
 <a name="Connectwithus"></a>
