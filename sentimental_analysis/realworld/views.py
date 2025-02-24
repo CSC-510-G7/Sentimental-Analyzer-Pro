@@ -49,6 +49,7 @@ def update_profile(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+        messages.success(request, "Account updated successfully.")
         return redirect('profile')
     return render(request, 'realworld/profile.html')
 

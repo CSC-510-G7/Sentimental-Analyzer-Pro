@@ -77,6 +77,19 @@
             </div>
         </header>
         <main id="content" class="bgcol">
+            {% if messages %}
+                <div class="alert alert-info">
+                    {% for message in messages %}
+                        <div class="sep"></div>
+                        <h2>{{ message }}</h2>
+                        <script>
+                            setTimeout(function() {
+                                document.querySelector('.alert').style.display = 'none';
+                            }, 2000);
+                        </script>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <section id="about" class="introduction scrollto">
                 <div class="row clearfix" >
                     <div class="section-heading">
