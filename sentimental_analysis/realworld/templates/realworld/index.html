@@ -210,8 +210,6 @@
                            <p>Upload an Image and Sentiment Analyzer Pro will analyze the image and report back the sentiments felt by the person like  happy, sad, etc.</p>
                         </div>
                      </div>
-                     
-                    
                      </div>
                   </div>
                 </div>
@@ -245,7 +243,7 @@
                         <label for="text" class="drop-container" id="dropcontainer">
                         <span class="drop-title">Drop files here</span>
                         or
-                        <input type="file" id="file" name="document" accept="text/plain" required>
+                        <input type="file" id="file" name="document" accept="image/*" required>
                         </label>
                         <button type="submit" id = "myButton"class="button">Analyze</button>
                         <div id="message" class="hidden">Wait till the results are generated</div>
@@ -444,9 +442,6 @@
 
 
       <script>
-
-       
-         
          const dropContainer = document.getElementById("dropcontainer")
          const fileInput = document.getElementById("file")
          
