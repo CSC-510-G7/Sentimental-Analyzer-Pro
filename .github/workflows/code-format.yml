@@ -21,4 +21,4 @@ jobs:
         pip install black
     - name: Check code formatting
       run: |
-        black . --diff --exclude '/(black-master|assests|test)/'
+        black . --diff --exclude '/(black-master|assests|test|pycodestyle-master|.*/test/.*\.py)/'
