@@ -7,6 +7,7 @@ from scrapy import Request
 reviews_base_url = 'https://www.amazon.com/product-reviews/{}'
 asin_list = []
 
+
 def extract_asin_from_url(url):
     pattern = r'/([A-Z0-9]{10})(?:[/?]|$)'
     match = re.search(pattern, url)
@@ -14,6 +15,7 @@ def extract_asin_from_url(url):
         return match.group(1)
     else:
         return None
+
 
 def get_date_place(param):
     date_part, place = None, None
@@ -25,6 +27,7 @@ def get_date_place(param):
         date_part = result.group(0)
         place = param.replace(date_part, '').replace('Reviewed in', '').replace('on', '').strip()
     return date_part, place
+
 
 class ReviewsSpider(scrapy.Spider):
     logging.getLogger('scrapy').setLevel(logging.WARNING)
