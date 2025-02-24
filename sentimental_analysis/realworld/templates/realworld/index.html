@@ -92,73 +92,20 @@
          <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
       </div>
       <div id="wrapper">
-         <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
-         <div id="header" class="nav-collapse navbar">
-            <div class="row clearfix" >
-               <div class="col-1">
-                 
-                  <aside>
-                     <ul class="social-icons">
-                        
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#gallery">Product Analysis</a></li>
-                        <li><a  href="#news">News Analysis</a></li>
-                        <li><a href="#live-speech">Live Speech</a></li>
-                        <li><a  href="#text">Text Analysis</a></li>
-                        <li><a  href="#batchTextField">Batch Analysis</a></li>
-                        
-                        <li><a href="#document">Doc. Analysis</a></li>
-                        <li><a href="#audio">Audio Analysis</a></li>
-                        
-                        <select name="social" id="media" onchange="location.href = this.value;">
-                           <option value="#facebook">Social Media</option>
-                           <option value="#facebook">Facebook</option>
-                           <option value="#twitter">Twitter</option>
-                           <option value="#reddit">Reddit</option>
-                       </select>
-                        <li><a href="#image">Image Analysis</a></li>
-                         {% if user.is_authenticated %}
-                              <li style="color: black; position: relative;">
-                                  <div class="dropdown">
-                                    <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
-                                    <div class="dropdown-content">
-                                        <a href="{% url 'profile' %}">Profile</a>
-                                        <a href="{% url 'settings' %}">Settings</a>
-                                        <a href="{% url 'logout' %}">Logout</a>
-                                    </div>
-                                </div>
-                              </li>
-                            {% else %}
-                             <li><a href="{% url 'login' %}">Login</a></li>
-                         {% endif %}
-                     </ul>
-                  </aside>
-                  <div id="nav-trigger"><span></span></div>
-                  <nav id="nav-mobile"></nav>
+         {% include 'realworld/header.html' %}
+         <div id="banner-content" class="row clearfix">
+            <div class="section-heading">
+               <div class="col-38">
+                  <h1>Sentiment Analyzer Pro</h1>
+                  <div class="separator"></div>
+                  <h2 id="head">
+                     <br>Have you ever wondered what sentiments are behind the reviews on Amazon or maybe what someone says or what someone writes. Here we have created an elegant solution to such queries by having an analysis of these sentiments from the given input. <br><br>
+                  </h2>
+                  <div class="separator"></div>
                </div>
             </div>
-         
-           
-            </div>
-            
-           
-            <div id="banner-content" class="row clearfix">
-               
-               <div class="section-heading">
-                
-                 <div class="col-38">
-                   <h1 >Sentiment Analyzer Pro</h1>
-                   <div class="separator">   </div>
-                   <h2 id="head">
-                     <br>Have you ever wondered what sentiments are behind the reviews on Amazon or maybe what someone says or what someone writes. Here we have created an elegant solution to such queries by having an analysis of these sentiments from the given input. <br><br> 
-                   </h2>
-                   <div class="separator">   </div>
-                 </div>
-               </div>
-             </div>
-             
-             <div class="sep">   </div>
-         </header>
+         </div>
+         <div class="sep"></div>
          
          <main id="content" class="bgcol">
             <section id="about" class="introduction scrollto">
@@ -477,27 +424,7 @@
             </section>
             
          </html>
-         <footer id="landing-footer" class="clearfix">
-            <div class="row clearfix">
-              <div class="col-2">
-                <p id="dev">
-                    &copy; Extended by Team 06: <a href="https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.git">Sentimental-Analyzer-Pro</a>
-                </p>
-              </div>
-              <div class="col-2 disclaimer">
-                <div class="team-members">
-                  <p>Team Members:</p>
-                    <p>Md Jakaria&nbsp; 	Autumn Wright</p>
-                </div>
-              </div>
-            </div>
-          </footer>
-          
-          
-          
-          
-          
-          
+         {% include 'realworld/footer.html' %}
           
         
       </div>
