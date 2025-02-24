@@ -36,6 +36,8 @@ from .cache_manager import AnalysisCache
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from realworld.models import Profile
+from django.contrib.auth import update_session_auth_hash
 
 @login_required
 def update_profile(request):
@@ -70,7 +72,10 @@ def update_account(request):
         user.set_password(password)
         user.save()
 
-        profile = user.profile
+        # Re-authenticate the user to prevent logout
+        update_session_auth_hash(request, user)
+
+        profile, created = Profile.objects.get_or_create(user=user)
         profile.contact_number = contact_number
         profile.two_fa_method = two_fa_method
         profile.save()
@@ -82,7 +87,7 @@ def update_account(request):
 @login_required
 def opt_out(request):
     user = request.user
-    profile = user.profile
+    profile, created = Profile.objects.get_or_create(user=user)
     profile.opted_out = True
     profile.save()
     messages.success(request, "You have opted out of the sale/sharing of your personal data.")
