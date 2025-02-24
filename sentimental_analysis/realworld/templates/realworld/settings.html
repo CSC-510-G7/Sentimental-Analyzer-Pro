@@ -92,147 +92,66 @@
          <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
       </div>
       <div id="wrapper">
-         {% include 'realworld/header.html' %}
-         <div id="banner-content" class="row clearfix">
-            <div class="section-heading">
-               <div class="col-38">
-                  <h1>Sentiment Analyzer Pro</h1>
-                  <div class="separator"></div>
-                  <h2 id="head">
-                     <br>Have you ever wondered what sentiments are behind the reviews on Amazon or maybe what someone says or what someone writes. Here we have created an elegant solution to such queries by having an analysis of these sentiments from the given input. <br><br>
-                  </h2>
-                  <div class="separator"></div>
+         <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
+         <div id="header" class="nav-collapse navbar">
+            <div class="row clearfix" >
+               <div class="col-1">
+                 
+                  <aside>
+                     <ul class="social-icons">
+                        
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#gallery">Product Analysis</a></li>
+                        <li><a  href="#news">News Analysis</a></li>
+                        <li><a href="#live-speech">Live Speech</a></li>
+                        <li><a  href="#text">Text Analysis</a></li>
+                        <li><a  href="#batchTextField">Batch Analysis</a></li>
+                        
+                        <li><a href="#document">Doc. Analysis</a></li>
+                        <li><a href="#audio">Audio Analysis</a></li>
+                        
+                        <select name="social" id="media" onchange="location.href = this.value;">
+                           <option value="#facebook">Social Media</option>
+                           <option value="#facebook">Facebook</option>
+                           <option value="#twitter">Twitter</option>
+                           <option value="#reddit">Reddit</option>
+                       </select>
+                        <li><a href="#image">Image Analysis</a></li>
+                         {% if user.is_authenticated %}
+                              <li style="color: black; position: relative;">
+                                  <div class="dropdown">
+                                    <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'profile' %}">Profile</a>
+                                        <a href="{% url 'settings' %}">Settings</a>
+                                        <a href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                              </li>
+                            {% else %}
+                             <li><a href="{% url 'login' %}">Login</a></li>
+                         {% endif %}
+                     </ul>
+                  </aside>
+                  <div id="nav-trigger"><span></span></div>
+                  <nav id="nav-mobile"></nav>
                </div>
             </div>
-         </div>
-         <div class="sep"></div>
+         
+           
+            </div>
+
+             <div class="sep">   </div>
+         </header>
          
          <main id="content" class="bgcol">
             <section id="about" class="introduction scrollto">
-               <div class="row clearfix" >
+              <div class="row clearfix" >
                   
-                     <div class="col-1-2">
-                     <div class="section-heading">
-                        <h2 class="section-title">About our project</h2>
-                        <p class="section-subtitle">Sentiment Analyzer Pro provides different online tools to cater to any sentinmental analysis needs. Sentiment Analyzer Pro uses a powerful sentimental analyzer which is efficient and accurate.</p>
-                     </div>
-                  
-                     </div>
-                  
-                  <div class="col-1-2">
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="icon">
-                           <i class="fa fa-mobile fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Product Analysis</h4>
-                           <p>Need feedback for an Amazon product? Just paste the URL and Sentiment Analyzer Pro will analyze all the comments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="icon">
-                           <i class="fa-regular fa-newspaper fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>News Analysis</h4>
-                           <p>Want to know a sentiment of the news? Just type the news topic and Sentiment Analyzer Pro will analyze the news.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fa-solid fa-microphone fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Live Speech Analysis</h4>
-                           <p>Record a live speech and Sentiment Analyzer Pro will analyze a live speech and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="icon">
-                           <i class="fa fa-file fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Document Analysis</h4>
-                           <p>Upload a pdf or docx file and Sentiment Analyzer Pro will analyze the text in it and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="icon">
-                           <i class="fa fa-font fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Text Analysis</h4>
-                           <p>Type the text you want to analyze and Sentiment Analyzer Pro will report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fa fa-headphones fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Audio Analysis</h4>
-                           <p>Upload an audio file and Sentiment Analyzer Pro will analyze the audio and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fab fa-facebook fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Facebook Analysis</h4>
-                           <p>Upload a facebook post or comment link and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fab fa-twitter fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Twitter Analysis</h4>
-                           <p>Upload a Twitter post or tweet link and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fab fa-reddit fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Reddit Analysis</h4>
-                           <p>Upload a reddit post or tweet link and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
-                        </div>
-                     </div>
-                     <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="icon">
-                           <i class="fas fa-file-image fa-2x"></i>
-                        </div>
-                        <div class="icon-block-description">
-                           <h4>Image Analysis</h4>
-                           <p>Upload an Image and Sentiment Analyzer Pro will analyze the image and report back the sentiments felt by the person like  happy, sad, etc.</p>
-                        </div>
-                     </div>
-                     
-                    
-                     </div>
-                  </div>
-                </div>
-            </body>
-            <div class="sep">   </div>
-            <section id="gallery" class="scrollto clearfix">
-               <div class="row no-padding-bottom clearfix">
-                  <div class="col-1">
-                     <div class="section-heading">
-                        <h2 class="section-title">Product Analysis</h2>
-                        <p class="section-subtitle">Paste the Amazon URL and Sentiment Analyzer Pro will analyze the comments and report back the sentiments.</p>
-                        <form action = "{% url "product analysis" %}" method = "post">
-                        {% csrf_token %}
-                        <label for="blogname" class="form-label">Paste Amazon URL:</label>
-                        <input type="text" id="blogname" class="line-edit" name="blogname" required>
-                        <button type="submit" id = "myButton"class="button">Analyze</button>
-                        <div id="message" class="hidden">Wait till the results are generated.</div>
-                        </form>
-                     </div>
-                  </div>
-               </div>
+                <!-- <div class="col-1-2"></div>
+                <div class="col-1-2"></div> -->
+              </div>
+              </div>
             </section>
             <section id="services" class="scrollto clearfix">
                <div class="row no-padding-bottom clearfix">
@@ -424,7 +343,27 @@
             </section>
             
          </html>
-         {% include 'realworld/footer.html' %}
+         <footer id="landing-footer" class="clearfix">
+            <div class="row clearfix">
+              <div class="col-2">
+                <p id="dev">
+                    &copy; Extended by Team 06: <a href="https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.git">Sentimental-Analyzer-Pro</a>
+                </p>
+              </div>
+              <div class="col-2 disclaimer">
+                <div class="team-members">
+                  <p>Team Members:</p>
+                    <p>Md Jakaria&nbsp; 	Autumn Wright</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+          
+          
+          
+          
+          
+          
           
         
       </div>

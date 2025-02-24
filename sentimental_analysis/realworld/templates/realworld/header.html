@@ -1,0 +1,44 @@
+<!-- filepath: /Users/mdjakaria/CSC510/Sentimental-Analyzer-Pro/sentimental_analysis/realworld/templates/realworld/header.html -->
+<header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
+   <div id="header" class="nav-collapse navbar">
+      <div class="row clearfix">
+         <div class="col-1">
+            <aside>
+               <ul class="social-icons">
+                  <li><a href="/#about">About</a></li>
+                  <li><a href="/#gallery">Product Analysis</a></li>
+                  <li><a href="/#news">News Analysis</a></li>
+                  <li><a href="/#live-speech">Live Speech</a></li>
+                  <li><a href="/#text">Text Analysis</a></li>
+                  <li><a href="/#batchTextField">Batch Analysis</a></li>
+                  <li><a href="/#document">Doc. Analysis</a></li>
+                  <li><a href="/#audio">Audio Analysis</a></li>
+                  <select name="social" id="media" onchange="location.href = this.value;">
+                     <option value="/#facebook">Social Media</option>
+                     <option value="/#facebook">Facebook</option>
+                     <option value="/#twitter">Twitter</option>
+                     <option value="/#reddit">Reddit</option>
+                  </select>
+                  <li><a href="/#image">Image Analysis</a></li>
+                  {% if user.is_authenticated %}
+                     <li style="color: black; position: relative;">
+                        <div class="dropdown">
+                           <a href="#" id="username-link" class="dropbtn">Welcome, {{ user.username }}</a>
+                           <div class="dropdown-content">
+                              <a href="{% url 'profile' %}">Profile</a>
+                              <a href="{% url 'settings' %}">Settings</a>
+                              <a href="{% url 'logout' %}">Logout</a>
+                           </div>
+                        </div>
+                     </li>
+                  {% else %}
+                     <li><a href="{% url 'login' %}">Login</a></li>
+                  {% endif %}
+               </ul>
+            </aside>
+            <div id="nav-trigger"><span></span></div>
+            <nav id="nav-mobile"></nav>
+         </div>
+      </div>
+   </div>
+</header>
