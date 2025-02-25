@@ -40,6 +40,9 @@ from realworld.fb_scrap import fb_sentiment_score
 from realworld.twitter_scrap import twitter_sentiment_score
 from realworld.reddit_scrap import fetch_reddit_post, reddit_sentiment_score
 from realworld.models import Profile
+from realworld.history_manager import (
+    store_text_analysis
+)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -412,6 +415,16 @@ def textanalysis(request):
                 'neu': result_classifier.get('neutral', 0.0),
                 'neg': result_classifier.get('negative', 0.0)
             }
+        store_text_analysis(
+            request,
+            data={
+            'sentiment': result,
+            'text': finalText,
+            'reviewsRatio': {},
+            'totalReviews': 1,
+            'showReviewsRatio': False
+            }
+        )
         return render(
             request,
             'realworld/results.html',
