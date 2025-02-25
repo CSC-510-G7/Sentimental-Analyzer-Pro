@@ -8,7 +8,7 @@ def twitter_sentiment_score():
     # Ensure the necessary NLTK data is downloaded
     nltk.download('vader_lexicon')
     nltk.download('punkt')
-    
+
     current_directory = os.path.dirname(__file__)
 
     text_file = 'twitt.txt'
