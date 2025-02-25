@@ -89,6 +89,11 @@ urlpatterns = [
         name='profile'
     ),
     path(
+        'history/',
+        realworld.views.history_view,
+        name='history'
+    ),
+    path(
         'settings/',
         realworld.views.settings_view,
         name='settings'

@@ -113,6 +113,10 @@ def settings_view(request):
     return render(request, 'realworld/settings.html')
 
 
+def history_view(request):
+    return render(request, 'realworld/history.html')
+
+
 def pdfparser(data):
     fp = open(data, 'rb')
     rsrcmgr = PDFResourceManager()
