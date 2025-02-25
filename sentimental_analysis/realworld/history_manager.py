@@ -20,18 +20,19 @@ def create_storage(username):
         # If the file does not exist, create an empty dictionary
         with open(file_path, 'w') as json_file:
             json.dump({
-                "Product Analysis": {},
-                "Image Analysis": {},
-                "News Analysis": {},
-                "Live Speech": {},
-                "Text Analysis": {},
-                "Batch Analysis": {},
-                "Doc Analysis": {},
-                "Audio Analysis": {},
+                "Product_Analysis": {},
+                "Image_Analysis": {},
+                "News_Analysis": {},
+                "Live_Speech": {},
+                "Text_Analysis": {},
+                "Batch_Analysis": {},
+                "Doc_Analysis": {},
+                "Audio_Analysis": {},
                 "Facebook": {},
                 "Twitter": {},
                 "Reddit": {},
             }, json_file)
+
 
 def store_text_analysis(request, data):
     # Get the username of the current user
@@ -44,18 +45,18 @@ def store_text_analysis(request, data):
 
     # Create storage for the user if it doesn't exist
     create_storage(username)
-    
+
     # Create a JSON file with the username and save data along with timestamp
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_path = os.path.join(directory_path, f"{username}.json")
     # Load the existing data from the JSON file
     with open(file_path, 'r') as json_file:
         existing_data = json.load(json_file)
 
     # Update the "Text Analysis" section with the new data
-    if "Text Analysis" not in existing_data:
-        existing_data["Text Analysis"] = {}
-    existing_data["Text Analysis"][timestamp] = data
+    if "Text_Analysis" not in existing_data:
+        existing_data["Text_Analysis"] = {}
+    existing_data["Text_Analysis"][timestamp] = data
 
     # Save the updated data back to the JSON file
     with open(file_path, 'w') as json_file:

@@ -26,7 +26,10 @@ from langdetect import detect
 from spanish_nlp import classifiers
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import (
+    update_session_auth_hash,
+    get_user
+)
 from .cache_manager import AnalysisCache
 from realworld.newsScraper import scrapNews
 from realworld.utilityFunctions import (
@@ -117,7 +120,27 @@ def settings_view(request):
 
 
 def history_view(request):
-    return render(request, 'realworld/history.html')
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    return render(
+        request,
+        'realworld/history.html',
+        {'history_data': history_data}
+    )
 
 
 def pdfparser(data):
