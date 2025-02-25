@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from django.contrib.messages import constants as message_constants
+import socket
+import re
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +28,15 @@ SECRET_KEY = '6vxboac4bx%%za0vl890=#bxomw*$+l+a!t8idg#i!=cp12uuy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
+try:
+    hostname = socket.gethostname()
+    local_ip = socket.gethostbyname(hostname)
+    ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS',
+                              'localhost').split(',') + [local_ip]
+    print(f"ALLOWED_HOSTS updated with local IP: localhost:8000, {local_ip}:8000")
+except Exception as e:
+    print(f"Failed to get local IP: {e}")
+    ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
