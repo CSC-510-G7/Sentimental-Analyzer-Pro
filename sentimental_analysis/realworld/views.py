@@ -441,11 +441,11 @@ def textanalysis(request):
         store_text_analysis(
             request,
             data={
-            'sentiment': result,
-            'text': finalText,
-            'reviewsRatio': {},
-            'totalReviews': 1,
-            'showReviewsRatio': False
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
             }
         )
         return render(
