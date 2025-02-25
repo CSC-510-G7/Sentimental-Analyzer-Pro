@@ -155,7 +155,7 @@ def detailed_analysis(result):
 
     for item in result:
         cleantext = get_clean_text(str(item))
-        print(cleantext)
+        # print(cleantext)
         sentiment = sentiment_scores(cleantext)
         pos_count += sentiment['pos']
         neu_count += sentiment['neu']
@@ -557,6 +557,8 @@ def recordaudio(request):
         path = pathname + audio_file.name
         audioName = audio_file.name
         destination_folder = 'sentimental_analysis/media/recordedAudio/'
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
         shutil.copy(path, destination_folder)
         useFile = destination_folder + audioName
         for file in files:
