@@ -31,19 +31,19 @@ from django.contrib.auth import (
     get_user
 )
 from .cache_manager import AnalysisCache
-from realworld.newsScraper import scrapNews
-from realworld.utilityFunctions import (
+from .newsScraper import scrapNews
+from .utilityFunctions import (
     removeLinks,
     stripEmojis,
     removeSpecialChar,
     stripPunctuations,
     stripExtraWhiteSpaces
 )
-from realworld.fb_scrap import fb_sentiment_score
-from realworld.twitter_scrap import twitter_sentiment_score
-from realworld.reddit_scrap import fetch_reddit_post, reddit_sentiment_score
-from realworld.models import Profile
-from realworld.history_manager import (
+from .fb_scrap import fb_sentiment_score
+from .twitter_scrap import twitter_sentiment_score
+from .reddit_scrap import fetch_reddit_post, reddit_sentiment_score
+from .models import Profile
+from .history_manager import (
     store_text_analysis
 )
 
