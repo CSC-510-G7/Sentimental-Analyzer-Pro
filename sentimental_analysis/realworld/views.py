@@ -272,7 +272,11 @@ def inputimage(request):
         shutil.copy(path, destination_folder)
         useFile = destination_folder + file.name
         image = cv2.imread(useFile)
-        detected_emotion = DeepFace.analyze(image)
+        try:
+            detected_emotion = DeepFace.analyze(image)
+        except Exception as e:
+            print(f"Error analyzing image: {e}")
+            detected_emotion = []
 
         emotions_dict = {'happy': 0.0, 'sad': 0.0, 'neutral': 0.0}
         for emotion in detected_emotion:

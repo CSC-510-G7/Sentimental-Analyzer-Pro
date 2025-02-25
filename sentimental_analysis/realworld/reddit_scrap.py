@@ -1,5 +1,6 @@
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import praw
+import nltk
 import matplotlib
 matplotlib.use('Agg')  # Use a non-GUI backend for macOS or server environments
 
@@ -13,6 +14,10 @@ def reddit_sentiment_score(data):
     Returns:
         dict: Sentiment scores for positive, negative, and neutral percentages.
     """
+    # Ensure the necessary NLTK data is downloaded
+    nltk.download('vader_lexicon')
+    nltk.download('punkt')
+
     # Initialize VADER sentiment analyzer
     sid = SentimentIntensityAnalyzer()
 
