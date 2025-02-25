@@ -114,9 +114,17 @@ urlpatterns = [
         name='opt_out'
     ),
     path(
-        'history/<str:timestamp>/',
+        'history/text/<str:timestamp>/',
         realworld.views.text_history_detail,
         name='text_history_detail'),
+    path(
+        'history/image/<str:timestamp>/',
+        realworld.views.image_history_detail,
+        name='image_history_detail'),
+    path(
+        'history/news/<str:timestamp>/',
+        realworld.views.news_history_detail,
+        name='news_history_detail'),
 ]
 
 urlpatterns += static(

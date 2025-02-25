@@ -44,7 +44,9 @@ from realworld.twitter_scrap import twitter_sentiment_score
 from realworld.reddit_scrap import fetch_reddit_post, reddit_sentiment_score
 from realworld.models import Profile
 from realworld.history_manager import (
-    store_text_analysis
+    store_text_analysis,
+    store_image_analysis,
+    store_news_analysis
 )
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -301,6 +303,10 @@ def inputimage(request):
         destination_folder = 'sentimental_analysis/media/document/'
         shutil.copy(path, destination_folder)
         useFile = destination_folder + file.name
+        
+        if os.path.exists(path):
+            os.remove(path)
+            
         image = cv2.imread(useFile)
         try:
             detected_emotion = DeepFace.analyze(image)
@@ -326,6 +332,16 @@ def inputimage(request):
 
         print(emotions_dict)
         finalText = max(emotions_dict, key=emotions_dict.get)
+
+        store_image_analysis(
+            request,
+            data={
+            'sentiment': emotions_dict,
+            'text': finalText,
+            'analyzed_image_path': useFile
+            }
+        )
+
         return render(
             request,
             'realworld/resultsimage.html',
@@ -807,6 +823,17 @@ def newsanalysis(request):
         print('cached sentiment')
         analysis_cache.set_analysis(topicname, news, result, finalText)
 
+        store_news_analysis(
+            request,
+            data={
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+
         return render(request, 'realworld/results.html', {
             'sentiment': result,
             'text': finalText,
@@ -861,6 +888,76 @@ def text_history_detail(request, timestamp):
 
     if analysis_data is None:
         return HttpResponse("Analysis data not found", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+@login_required
+def image_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Image_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for image", status=404)
+
+    return render(
+            request,
+            'realworld/resultsimage.html',
+            {
+                'sentiment': analysis_data['sentiment'],
+                'text': analysis_data['text'],
+                'analyzed_image_path': analysis_data['analyzed_image_path']
+            }
+        )
+
+def news_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('News_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for news", status=404)
 
     return render(
         request,

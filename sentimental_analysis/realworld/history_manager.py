@@ -61,3 +61,59 @@ def store_text_analysis(request, data):
     # Save the updated data back to the JSON file
     with open(file_path, 'w') as json_file:
         json.dump(existing_data, json_file, indent=4)
+
+def store_image_analysis(request, data):
+    # Get the username of the current user
+    user = get_user(request)
+    if user.is_authenticated:
+        username = user.username
+    else:
+        username = "Anonymous"
+    print(f"Username: {username}")
+
+    # Create storage for the user if it doesn't exist
+    create_storage(username)
+
+    # Create a JSON file with the username and save data along with timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_path = os.path.join(directory_path, f"{username}.json")
+    # Load the existing data from the JSON file
+    with open(file_path, 'r') as json_file:
+        existing_data = json.load(json_file)
+
+    # Update the "Image Analysis" section with the new data
+    if "Image_Analysis" not in existing_data:
+        existing_data["Image_Analysis"] = {}
+    existing_data["Image_Analysis"][timestamp] = data
+
+    # Save the updated data back to the JSON file
+    with open(file_path, 'w') as json_file:
+        json.dump(existing_data, json_file, indent=4)
+
+def store_news_analysis(request, data):
+    # Get the username of the current user
+    user = get_user(request)
+    if user.is_authenticated:
+        username = user.username
+    else:
+        username = "Anonymous"
+    print(f"Username: {username}")
+
+    # Create storage for the user if it doesn't exist
+    create_storage(username)
+
+    # Create a JSON file with the username and save data along with timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_path = os.path.join(directory_path, f"{username}.json")
+    # Load the existing data from the JSON file
+    with open(file_path, 'r') as json_file:
+        existing_data = json.load(json_file)
+
+    # Update the "News Analysis" section with the new data
+    if "News_Analysis" not in existing_data:
+        existing_data["News_Analysis"] = {}
+    existing_data["News_Analysis"][timestamp] = data
+
+    # Save the updated data back to the JSON file
+    with open(file_path, 'w') as json_file:
+        json.dump(existing_data, json_file, indent=4)

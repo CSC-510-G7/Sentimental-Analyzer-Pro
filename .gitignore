@@ -61,3 +61,6 @@ news_cache.json
 
 # Ignore database files
 sentimental_analysis/db.sqlite3
+
+# Ignore media files
+sentimental_analysis/media/
