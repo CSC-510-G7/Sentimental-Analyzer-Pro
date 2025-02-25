@@ -153,9 +153,9 @@ brew install ffmpeg
 python3 .\sentimental_analysis\manage.py makemigrations
 python3 .\sentimental_analysis\manage.py migrate
 ```
-8. Run Django Server using manage.py (Note: Make sure you are in root directory of the project.)
+8. Run Django Server using manage.py (Note: Make sure you are in root directory of the project.) Service now can be discored from any device in the local network.
 ```
-python3 .\sentimental_analysis\manage.py runserver
+python3 .\sentimental_analysis\manage.py runserver 0.0.0.0:8000
 ```
 9. Next, open your browser and type in `localhost:8000` in the search bar to open the user interface of the application.
    
