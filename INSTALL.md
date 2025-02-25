@@ -7,11 +7,19 @@ git clone https://github.com/ychen-207523/Sentimental-Analyzer-Pro.git
 ```
 2. Make sure you are using Python 3.10 or higher. You can get it here: https://www.python.org/downloads/release/python-3115/
 
-3. Create a Virtual Environment 
+3. Create a Virtual Environment
+For Windows:
+```
+python -m venv env
+env\Scripts\activate
+```
+
+For Linux (Ubuntu) and Mac:
 ```
 python3.10 -m venv env
 source env/bin/activate
 ```
+
 4. Install dependencies for the project from the root directory of the project:
 ```
 pip3 install -r requirements.txt
@@ -36,13 +44,16 @@ For Mac:
 ```
 brew install ffmpeg
 ```   
-7. Run Django Server using manage.py (Note: Make sure you are in root directory of the project.)
+7. Run Django Server migrations manage.py (Note: Make sure you are in root directory of the project.)
+```
+python3 .\sentimental_analysis\manage.py makemigrations
+python3 .\sentimental_analysis\manage.py migrate
+```
+8. Run Django Server using manage.py (Note: Make sure you are in root directory of the project.)
 ```
 python3 .\sentimental_analysis\manage.py runserver
 ```
-8. Next, open your browser and type in `localhost:8000` in the search bar to open the user interface of the application.
-   
-Now, you are good to go.
+9. Next, open your browser and type in `localhost:8000` in the search bar to open the user interface of the application.
 
 ![](https://media.giphy.com/media/AgrfqPt5AyiTm/giphy.gif)
 

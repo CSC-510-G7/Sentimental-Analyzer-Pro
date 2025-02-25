@@ -104,6 +104,14 @@ git clone https://github.com/NCSU-SE-Spring2025-Group6/Sentimental-Analyzer-Pro.
 2. Make sure you are using Python 3.10 or higher. You can get it here: https://www.python.org/downloads/release/python-3115/
 
 3. Create a Virtual Environment 
+
+For Windows:
+```
+python -m venv env
+env\Scripts\activate
+```
+
+For Linux (Ubuntu) and Mac:
 ```
 python3.10 -m venv env
 source env/bin/activate
