@@ -133,7 +133,7 @@ export DJANGO_ALLOWED_HOSTS=0.0.0.0,localhost,127.0.0.1
 pip3 install -r requirements.txt
 python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('averaged_perceptron_tagger')"
 ```
-6. Install ffmpeg:  
+6. Install ffmpeg (you may need to restart your terminal/IDE after this step):  
 For Windows:  
 ```
 winget install ffmpeg

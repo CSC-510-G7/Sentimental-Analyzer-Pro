@@ -30,7 +30,7 @@ pip3 install tf-keras
 pip3 install spanish_nlp
 pip3 install unidecode
 ```
-6. Install ffmpeg:  
+6. Install ffmpeg (you may need to restart your terminal/IDE after this step):
 For Windows:  
 ```
 winget install ffmpeg
