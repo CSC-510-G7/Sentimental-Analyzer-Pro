@@ -57,6 +57,7 @@ env/
 
 # Ignore cache files
 news_cache.json
+analysis_cache.json
 *.cache
 
 # Ignore database files
