@@ -836,3 +836,40 @@ def sentiment_analyzer_scores(sentence):
 @register.filter(name='get_item')
 def get_item(dictionary, key):
     return dictionary.get(key, 0)
+
+
+@login_required
+def text_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Text_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )

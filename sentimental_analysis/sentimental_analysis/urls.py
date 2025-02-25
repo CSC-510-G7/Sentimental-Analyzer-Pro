@@ -113,6 +113,10 @@ urlpatterns = [
         realworld.views.opt_out,
         name='opt_out'
     ),
+    path(
+        'history/<str:timestamp>/',
+        realworld.views.text_history_detail,
+        name='text_history_detail'),
 ]
 
 urlpatterns += static(
