@@ -43,4 +43,6 @@ jobs:
           autopep8 $(git ls-files '**.py*') --in-place --list-fixes -j 2
     - name: Test with pytest
       run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        export DJANGO_SETTINGS_MODULE=sentimental_analysis.sentimental_analysis.settings
         pytest --ds=sentimental_analysis.sentimental_analysis.settings

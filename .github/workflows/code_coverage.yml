@@ -23,13 +23,13 @@ jobs:
         echo requirements installed
     - name: Run the tests
       env:
-        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }}
-        DJANGO_SETTINGS_MODULE: 
+        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }} 
       run: |
           pip install -r requirements.txt
           python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('vader_lexicon')"
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          export DJANGO_SETTINGS_MODULE=sentimental_analysis.sentimental_analysis.settings
           pytest --ds=sentimental_analysis.sentimental_analysis.settings --cov=./ --cov-config=test/.coveragerc --cov-report=xml
-
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
