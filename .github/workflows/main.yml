@@ -43,4 +43,7 @@ jobs:
           autopep8 $(git ls-files '**.py*') --in-place --list-fixes -j 2
     - name: Test with pytest
       run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        python ./sentimental_analysis/manage.py makemigrations
+        python ./sentimental_analysis/manage.py migrate
         pytest

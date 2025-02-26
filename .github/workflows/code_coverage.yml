@@ -23,12 +23,14 @@ jobs:
         echo requirements installed
     - name: Run the tests
       env:
-        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }}
+        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }} 
       run: |
           pip install -r requirements.txt
           python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('vader_lexicon')"
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          python ./sentimental_analysis/manage.py makemigrations
+          python ./sentimental_analysis/manage.py migrate
           pytest --cov=./ --cov-config=test/.coveragerc --cov-report=xml
-
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
