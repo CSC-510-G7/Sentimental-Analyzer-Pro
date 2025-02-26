@@ -63,7 +63,6 @@ def store_text_analysis(request, data):
         json.dump(existing_data, json_file, indent=4)
 
 
-
 def store_image_analysis(request, data):
     # Get the username of the current user
     user = get_user(request)
