@@ -340,8 +340,24 @@ def store_product_analysis(request, data):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_path = os.path.join(directory_path, f"{username}.json")
     # Load the existing data from the JSON file
-    with open(file_path, 'r') as json_file:
-        existing_data = json.load(json_file)
+    try:
+        with open(file_path, 'r') as json_file:
+            existing_data = json.load(json_file)
+    except json.JSONDecodeError:
+        # If the JSON is invalid, create an empty dictionary
+        existing_data = {
+            "Product_Analysis": {},
+            "Image_Analysis": {},
+            "News_Analysis": {},
+            "Live_Speech": {},
+            "Text_Analysis": {},
+            "Batch_Analysis": {},
+            "Doc_Analysis": {},
+            "Audio_Analysis": {},
+            "Facebook": {},
+            "Twitter": {},
+            "Reddit": {},
+        }
 
     # Update the "Product Analysis" section with the new data
     if "Product_Analysis" not in existing_data:
