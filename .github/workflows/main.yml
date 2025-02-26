@@ -47,4 +47,4 @@ jobs:
         export DJANGO_SETTINGS_MODULE=sentimental_analysis.sentimental_analysis.settings
         python ./sentimental_analysis/manage.py makemigrations
         python ./sentimental_analysis/manage.py migrate
-        pytest --ds=sentimental_analysis.sentimental_analysis.settings
+        pytest
