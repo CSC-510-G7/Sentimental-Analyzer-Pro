@@ -117,7 +117,7 @@
                       <div class="section-heading">
                          <h4>Opt out of sale/sharing of personal data</h4>
                          <p>We use the data you share with us in a few ways, like managing your account and personalizing your experience. Your data is shared with merchant partners, third parties, or affiliates for providing rewards and benefits to you and for marketing purposes. In certain jurisdictions, this use may be considered a “sale” or “sharing” of personal information. If you do not want us to share your personal information with third parties in this way, you have the right to opt-out. To learn more about what information we collect and why, please read our
-                            <a href="/privacy-policy" target="_blank">Privacy Policy</a> 
+                            <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a> 
                             To opt out of the sale/sharing of your personal data, please click the button below. 
                             This will prevent us from sharing your personal information with third parties for marketing purposes.</p>
                         <div class="form-group">
@@ -131,7 +131,7 @@
                       </div>
                       <div class="section-heading">
                         <h4>Delete my data</h4>
-                        <p>If you would like us to delete all your personal data from our records, you can request it here. Please note that this action is irreversible and you will lose access to your account and all associated data. To learn more about what information we collect and why, please read our <a href="/privacy-policy" target="_blank">Privacy Policy</a>.
+                        <p>If you would like us to delete all your personal data from our records, you can request it here. Please note that this action is irreversible and you will lose access to your account and all associated data. To learn more about what information we collect and why, please read our <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a>.
                             <br>To delete your data, please click the button below. This will remove all your personal information from our systems. Note: This action is irreversible and you will lose access to your history and all associated data.</p>
                         <div class="form-group">
                            <form action="{% url 'delete_data' %}" method="post">
