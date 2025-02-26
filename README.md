@@ -157,7 +157,7 @@ python3 .\sentimental_analysis\manage.py migrate
 ```
 python3 .\sentimental_analysis\manage.py runserver 0.0.0.0:8000
 ```
-9. Next, open your browser and type in `localhost:8000` in the search bar to open the user interface of the application.
+9. Next, open your browser and type in `localhost:8000` in the search bar to open the user interface of the application. You may also access the server with other device in the local network with `<host_ip>:8000`
    
 Now, you are good to go.
 
@@ -197,7 +197,11 @@ pytest
 - Reddit Analysis<br><br>
 ![Seventh](<https://github.com/user-attachments/assets/18f58929-f11c-4db1-95d4-ef9d1a2dad97>)<br>
 
+- Update User Profile<br><br>
+![Seventh](<./assets/gifs/profile.gif>)<br>
 
+- Retrive History<br><br>
+![Seventh](<./assets/gifs/history.gif>)<br>
 ---
 
 <a name="docker"></a>
@@ -219,31 +223,42 @@ docker run -p 8000:8000 sentimental-analysis
 ---
 <a name="roadmap"></a>
 ## Roadmap and Progress
+
 ### Past Achievement(Previous Work)
-- [x] Live Sentiment Analysis Feature inclusion
-- [x] News Analysis Feature inclusion
-- [x] Fixed and enhanced Amazon Product Analysis
-- [x] Unit Tests were written and Test Coverage was improved
+- [x]Implement User Authentication to store the login history of each User<br>
+- [x]Visualize the sentiment distribution by each user comment for product analysis<br>
+- [x]Upgraded news analysis by transitioning from Google Search to Google News scraping, yielding more relevant insights<br>
+- [x]Public facing webpage to get feedbacks, Raise and handle issues, Discuss & Grow with enthusiasts and supportive community<br>  
+- [x]Docker-Ready Deployment for seamless deployment across any platform with our containerized solution<br>  
+- [x]Intelligent Caching System to reduce redundant API calls<br>  
+- [x]Intelligent Caching System to reduce redundant API calls<br>  
+- [x]Process multiple texts simultaneously with our new batch analysis feature<br> 
 
-### Current Achievements
-☑️  Implement User Authentication to store the login history of each User<br>
-☑️  Visualize the sentiment distribution by each user comment for product analysis<br>
-☑️  Upgraded news analysis by transitioning from Google Search to Google News scraping, yielding more relevant insights<br>
-☑️  UI Improvement for enriching User interaction with the Application<br>
-☑️  Enhance the Product Analysis by considering the number of users rated for each Product!<br>
-☑️  Documentation Improvement for reflecting project's value accurately<br>
-☑️  Addition of Builds and Workflows for better development activities<br>
-☑️  Public facing webpage to get feedbacks, Raise and handle issues, Discuss & Grow with enthusiasts and supportive community<br>  
-☑️  Docker-Ready Deployment for seamless deployment across any platform with our containerized solution<br>  
-☑️  Intelligent Caching System to reduce redundant API calls<br>  
-☑️  Intelligent Caching System to reduce redundant API calls<br>  
-☑️  Process multiple texts simultaneously with our new batch analysis feature<br> 
-
+### Current Improvements
+- [x] Enhanced User Interface for better user experience
+- [x] Added profile management mechanism for users to update their profiles
+- [x] Implemented privacy policy to ensure user data protection
+- [x] Introduced "Right to be Forgotten" feature allowing users to delete their data
+- [x] Provided opt-out options for users who do not wish to participate
+- [x] Enabled "Delete My Data" feature for users to remove their data from the system
+- [x] Developed analysis history feature to track user interactions
+- [x] Established a user data storage mechanism
 
 ### Future Scope
-- [ ] Advanced Analytics which include emotion detection, comparision tools and auto-generated reports
-- [ ] Enable users to compare sentiment across different brands or products
-- [ ] Allow users to train sentiment models specific to their industry or needs
+- [ ] Remote Server Access
+  - Access the service from anywhere!
+  - Key into each of the website’s functions remotely with an API!
+
+- [ ] Data Management
+  - Group your analyses into exportable datasets and summarize the results.
+
+- [ ] Real-Time Text Analysis
+  - Type or paste text into a live window for instant sentiment analysis!
+
+- [ ] Topical Analysis
+  - Input a topic to scrape for on news or social media platforms to see the general sentiment of discussion surrounding that topic.
+
+
       
 ---  
 <a name="casestudy"></a>
@@ -268,15 +283,13 @@ To Contribute to our application, please refer to [CONTRIBUTING.md](https://gith
 <a name="team"></a>
 ## Team Members
 
-- Jay Joshi
-- Dinesh Pasupuleti
-- Srivardhan Vura
->>>>>>> master
+- Md Jakaria
+- Autumn Wright
 
 ## Citation
 
-This project is a fork of [Sentimental-Analyzer-Pro](https://github.com/NehaSJ99/Sentimental-Analyzer-Pro) by ***NehaSJ99***.<br>
-Forked on: ***14 Nov 2024***<br>
-Original Commit Hash: ***d11a4871660aa0a26f31764d150c87f2bd5d0586***
+This project is a fork of [Sentimental-Analyzer-Pro](https://github.com/jayjoshi1400/Sentimental-Analyzer-Pro) 
+Forked on: ***20 Feb 2025***<br>
+Original Commit Hash: ***185ca56da363caefd41ea2e0037553b246f7ec1d***
 
 **Note:** This is an unfunded, non-profit project created for educational purposes.
