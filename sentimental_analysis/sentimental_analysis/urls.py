@@ -114,9 +114,55 @@ urlpatterns = [
         name='opt_out'
     ),
     path(
-        'history/<str:timestamp>/',
+        'delete_data',
+        realworld.views.delete_data,
+        name='delete_data'
+    ),
+    path(
+        'history/text/<str:timestamp>/',
         realworld.views.text_history_detail,
         name='text_history_detail'),
+    path(
+        'history/image/<str:timestamp>/',
+        realworld.views.image_history_detail,
+        name='image_history_detail'),
+    path(
+        'history/news/<str:timestamp>/',
+        realworld.views.news_history_detail,
+        name='news_history_detail'),
+    path(
+        'history/document/<str:timestamp>/',
+        realworld.views.document_history_detail,
+        name='document_history_detail'),
+    path(
+        'history/audio/<str:timestamp>/',
+        realworld.views.audio_history_detail,
+        name='audio_history_detail'),
+    path(
+        'history/live/<str:timestamp>/',
+        realworld.views.live_history_detail,
+        name='live_history_detail'),
+    path(
+        'history/reddit/<str:timestamp>/',
+        realworld.views.reddit_history_detail,
+        name='reddit_history_detail'),
+    path(
+        'history/twitter/<str:timestamp>/',
+        realworld.views.twitter_history_detail,
+        name='twitter_history_detail'),
+    path(
+        'history/facebook/<str:timestamp>/',
+        realworld.views.facebook_history_detail,
+        name='facebook_history_detail'),
+    path(
+        'history/product/<str:timestamp>/',
+        realworld.views.product_history_detail,
+        name='product_history_detail'),
+    path(
+        'privacy-policy/',
+        realworld.views.privacy_policy,
+        name='privacy_policy'
+    ),
 ]
 
 urlpatterns += static(
