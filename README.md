@@ -61,8 +61,19 @@ The Sentimental Analyzer provides the following:
   <li><b>Comprehensive Insights: </b>Different types of data sources provide diverse perspectives. An all-encompassing tool can provide a more comprehensive understanding of public sentiment.</li>
   <li><b>Multichannel Data Analysis:</b> In today's world, opinions and sentiments are expressed across various channels, including social media, customer reviews, audio recordings, and news articles. A tool that can analyze these diverse data sources offers a more accurate picture of public sentiment.</li>
   <li><b>Cost-Efficiency:</b> Instead of using multiple specialized tools, a single tool that can handle multiple data types is cost-effective and streamlines the analysis process.</li>
-</ul>
 
+### Who can and should use Sentimental Analyzer Pro?
+
+Sentimental Analyzer Pro is designed for a diverse range of users:
+
+- **Businesses and Organizations:** Analyze customer feedback and social media mentions to improve products and services.
+- **Researchers and Academics:** Study trends and public opinion in large datasets.
+- **Media and News Agencies:** Gauge public sentiment towards news articles and events.
+- **Marketing Professionals:** Track campaign effectiveness and tailor strategies.
+- **Developers and Data Scientists:** Integrate sentiment analysis into applications.
+- **Educational Institutions:** Use for academic projects and research.
+
+This tool is suitable for adults of all ages, genders, and demographics who need to understand sentiment in various data forms.
 ![meme](https://github.com/ychen-207523/Sentimental-Analyzer-Pro/blob/master/assets/images/sentiment_analysis.jpg)
 
 ### How was Sentimental Analyzer Pro developed?
