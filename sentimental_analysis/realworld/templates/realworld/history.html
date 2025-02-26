@@ -113,7 +113,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Product_Analysis.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'product_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -129,7 +132,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Image_Analysis.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'image_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -145,7 +151,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.News_Analysis.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'news_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -161,7 +170,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Doc_Analysis.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'document_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -195,7 +207,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Audio_Analysis.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'audio_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -211,7 +226,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Live_Speech.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'live_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -260,7 +278,10 @@
                         <ol class="history-list">
                             {% for timestamp, data in history_data.Reddit.items %}
                                 <li class="history-item">
-                                    <a href="#">{{ timestamp }}: {{ data }}</a>
+                                    <!-- <a href="#">{{ timestamp }}: {{ data }}</a> -->
+                                    <a href="{% url 'reddit_history_detail' timestamp=timestamp %}">
+                                        {{ timestamp }}: {{ data }}
+                                    </a>
                                 </li>
                             {% endfor %}
                         </ol>
