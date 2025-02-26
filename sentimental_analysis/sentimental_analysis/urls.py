@@ -114,6 +114,11 @@ urlpatterns = [
         name='opt_out'
     ),
     path(
+        'delete_data',
+        realworld.views.delete_data,
+        name='delete_data'
+    ),
+    path(
         'history/text/<str:timestamp>/',
         realworld.views.text_history_detail,
         name='text_history_detail'),

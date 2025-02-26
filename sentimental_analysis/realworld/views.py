@@ -119,6 +119,16 @@ def opt_out(request):
                      "sale/sharing of your personal data.")
     return redirect('profile')
 
+def delete_data(request):
+    user = request.user
+    directory_path = os.path.join("sentimental_analysis", "media", "user_data")
+    file_path = os.path.join(directory_path, f"{user.username}.json")
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    messages.success(request,
+                     "Your personal data has been deleted.")
+    return redirect('profile')
+
 
 def profile_view(request):
     return render(request, 'realworld/profile.html')
