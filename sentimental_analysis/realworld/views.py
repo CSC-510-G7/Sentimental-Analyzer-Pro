@@ -119,6 +119,7 @@ def opt_out(request):
                      "sale/sharing of your personal data.")
     return redirect('profile')
 
+
 def delete_data(request):
     user = request.user
     directory_path = os.path.join("sentimental_analysis", "media", "user_data")
@@ -1333,6 +1334,7 @@ def product_history_detail(request, timestamp):
             'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
         }
     )
+
 
 def privacy_policy(request):
     return render(request, 'realworld/privacy_policy.html')
