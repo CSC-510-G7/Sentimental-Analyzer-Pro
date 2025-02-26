@@ -158,6 +158,11 @@ urlpatterns = [
         'history/product/<str:timestamp>/',
         realworld.views.product_history_detail,
         name='product_history_detail'),
+    path(
+        'privacy-policy/',
+        realworld.views.privacy_policy,
+        name='privacy_policy'
+    ),
 ]
 
 urlpatterns += static(

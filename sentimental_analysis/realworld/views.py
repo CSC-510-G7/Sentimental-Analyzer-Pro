@@ -1333,3 +1333,6 @@ def product_history_detail(request, timestamp):
             'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
         }
     )
+
+def privacy_policy(request):
+    return render(request, 'realworld/privacy_policy.html')
