@@ -42,5 +42,7 @@ jobs:
           pip install autopep8
           autopep8 $(git ls-files '**.py*') --in-place --list-fixes -j 2
     - name: Test with pytest
+      env:
+        DJANGO_SETTINGS_MODULE: sentimental_analysis.sentimental_analysis.settings
       run: |
         pytest
