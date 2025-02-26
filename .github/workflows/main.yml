@@ -43,4 +43,4 @@ jobs:
           autopep8 $(git ls-files '**.py*') --in-place --list-fixes -j 2
     - name: Test with pytest
       run: |
-        pytest
+        pytest --ds=sentimental_analysis.sentimental_analysis.settings
