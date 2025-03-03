@@ -37,4 +37,5 @@ jobs:
         file: ./coverage.xml
         verbose: true
       env:
+        # CODECOV_TOKEN must be set up as a repository secret
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
