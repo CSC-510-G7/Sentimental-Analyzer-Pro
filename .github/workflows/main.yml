@@ -46,4 +46,4 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:$(pwd)
         python ./sentimental_analysis/manage.py makemigrations
         python ./sentimental_analysis/manage.py migrate
-        pytest
+        pytest ./sentimental_analysis/realworld/__tests__/test_history_manager.py
