@@ -69,6 +69,16 @@ urlpatterns = [
         name='reddit analysis'
     ),
     re_path(
+        r'^youtubetranscriptanalysis',
+        realworld.views.youtube_transcript_analysis,
+        name='youtube transcript analysis'
+    ),
+    re_path(
+        r'^youtubecommentsanalysis',
+        realworld.views.youtube_comments_analysis,
+        name='youtube comments analysis'
+    ),
+    re_path(
         r'^recordAudio',
         realworld.views.recordaudio,
         name='recordAudio'

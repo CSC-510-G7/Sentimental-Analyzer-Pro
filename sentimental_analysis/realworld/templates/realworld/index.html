@@ -414,6 +414,40 @@
                   </div>
                </div>
             </section>
+
+            <section id="youtube" class="scrollto clearfix">
+                <div class="row no-padding-bottom clearfix">
+                   <div class="col-1">
+                      <div class="section-heading">
+                         <h2 class="section-title">YouTube Analysis</h2>
+                         <p class="section-subtitle">Paste the YouTube URL and Sentiment Analyzer Pro will analyze the either the video or its comments and report back the sentiments.</p>
+                         <!-- <form action = "{% url "youtube transcript analysis" %}" method = "post">
+                         {% csrf_token %}
+                         <label for="vidlink" class="form-label">Paste YouTube URL:</label>
+                         <input type="text" id="vidlink" class="line-edit" name="vidlink" required>
+                         <button type="submit" id = "myButton"class="button">Analyze Video Transcript</button>
+                         <button type="submit" id = "myButton"class="button">Analyze Comments</button>
+                         <div id="message" class="hidden">Wait till the results are generated.</div>
+                         </form> -->
+                         <form action = "{% url "youtube transcript analysis" %}" method = "post">
+                            {% csrf_token %}
+                            <label for="vidlink_transcript" class="form-label">Paste YouTube URL:</label>
+                            <input type="text" id="vidlink_transcript" class="line-edit" name="vidlink" required>
+                            <button type="submit" class="button">Analyze Video Transcript</button>
+                            <div id="message_transcript" class="hidden">Wait till the transcript results are generated.</div>
+                        </form>
+                        
+                        <form action = "{% url "youtube comments analysis" %}" method = "post">
+                            {% csrf_token %}
+                            <label for="vidlink_comments" class="form-label">Paste YouTube URL:</label>
+                            <input type="text" id="vidlink_comments" class="line-edit" name="vidlink" required>
+                            <button type="submit" class="button">Analyze Comments</button>
+                            <div id="message_comments" class="hidden">Wait till the comment results are generated.</div>
+                        </form>
+                      </div>
+                   </div>
+                </div>
+             </section>
             
          </html>
          {% include 'realworld/footer.html' %}

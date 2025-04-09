@@ -55,6 +55,7 @@ from realworld.history_manager import (
     store_reddit_data,
     store_product_analysis
 )
+from realworld.youtube_scrap import get_transcript, get_top_liked_comments
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -577,6 +578,109 @@ def calculate_average_sentiment(results):
         'neu': total_neu / num_results
     }
 
+def youtube_transcript_analysis(request):
+    if request.method == 'POST':
+        video_link = request.POST.get("vidlink", "")
+        full_text_data = get_transcript(video_link=video_link)
+
+        if not full_text_data:
+            return 404 # link didn't work
+        
+        # sentences = full_text_data.split('.')
+        sentences = nltk.PunktSentenceTokenizer().tokenize(full_text_data)
+        results = []
+
+        for sentence in sentences:
+            cleaned_sentence = sentence.strip()
+            if cleaned_sentence:
+                if determine_language([cleaned_sentence]):
+                    sentiment_result = detailed_analysis([cleaned_sentence])
+                else:
+                    sc = classifiers.SpanishClassifier(model_name="sentiment_analysis")
+                    result_classifier = sc.predict(cleaned_sentence)
+                    sentiment_result = {
+                        'pos': result_classifier.get('positive', 0.0),
+                        'neg': result_classifier.get('negative', 0.0),
+                        'neu': result_classifier.get('neutral', 0.0)
+                    }
+                results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
+
+        store_text_analysis(
+            request,
+            data={
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)}, # Store individual sentence results
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)},
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+    else:
+        note = "Enter link to yt video"
+        return render(request, 'realworld/textanalysis.html', {'note': note})
+    
+def youtube_comments_analysis(request):
+    if request.method == 'POST':
+        video_link = request.POST.get("vidlink", "")
+        full_text_data = get_top_liked_comments(video_link=video_link)
+
+        if not full_text_data:
+            return 404 # link didn't work
+        
+        # sentences = full_text_data.split('.')
+        sentences = nltk.sent_tokenize(full_text_data)
+        results = []
+
+        for sentence in sentences:
+            cleaned_sentence = sentence.strip()
+            if cleaned_sentence:
+                if determine_language([cleaned_sentence]):
+                    sentiment_result = detailed_analysis([cleaned_sentence])
+                else:
+                    sc = classifiers.SpanishClassifier(model_name="sentiment_analysis")
+                    result_classifier = sc.predict(cleaned_sentence)
+                    sentiment_result = {
+                        'pos': result_classifier.get('positive', 0.0),
+                        'neg': result_classifier.get('negative', 0.0),
+                        'neu': result_classifier.get('neutral', 0.0)
+                    }
+                results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
+
+        store_text_analysis(
+            request,
+            data={
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)}, # Store individual sentence results
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)},
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+    else:
+        note = "Enter link to yt video"
+        return render(request, 'realworld/textanalysis.html', {'note': note})
 
 def determine_language(texts):
     try:
