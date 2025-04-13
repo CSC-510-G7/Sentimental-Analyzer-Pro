@@ -1,6 +1,7 @@
 from youtube_transcript_api import YouTubeTranscriptApi
 from googleapiclient.discovery import build
 from urllib.parse import urlparse, parse_qs
+import os
 
 def extract_video_id(url):
     """Extracts the YouTube video ID from a YouTube URL."""
@@ -32,7 +33,7 @@ def get_transcript(video_link):
 def get_top_liked_comments(video_link, max_results=10):
 
     video_id = extract_video_id(video_link)
-    API_KEY = 'AIzaSyBQ4xGWWCtuhG-n1SQ4Z4eZ87enUIZ_YdQ'
+    API_KEY = os.environ.get('YOUTUBE_API_KEY')
     YOUTUBE_API_SERVICE_NAME = 'youtube'
     YOUTUBE_API_VERSION = 'v3'
 
