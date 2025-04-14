@@ -104,6 +104,11 @@ urlpatterns = [
         name='history'
     ),
     path(
+        'delete-history-entry/', 
+        realworld.views.delete_history_entry,
+        name='delete_history_entry'
+    ),
+    path(
         'settings/',
         realworld.views.settings_view,
         name='settings'

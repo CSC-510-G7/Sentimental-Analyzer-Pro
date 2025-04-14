@@ -86,19 +86,32 @@
       background-color: #ffcccc;
       color: #cc0000;
     }
-    .view-btn {
-      background-color: #e0674e;
+    .btn {
       color: white;
       padding: 6px 12px;
       text-decoration: none;
       border-radius: 4px;
       font-weight: 600;
       white-space: nowrap;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    .btn:hover {
+      transform: scale(1.07);
+    }
+    .view-btn {
+      background-color: #9b9b9b;
     }
     .view-btn:hover {
-      background: #a33b26;
-      transform: scale(1.05);
-    } 
+      background: #5e5e5e;
+    }
+    .delete-btn {
+      background-color: #ff4d4d;
+    }
+    .delete-btn:hover {
+      background-color: #cc0000;
+    }
     #about {
       margin-bottom: 10px;
     }
@@ -143,45 +156,43 @@
       <div class="row clearfix">
         <div class="col-1">
           <div class="section-heading-history">
-            <ol class="history-list">
-              {% for section, records in history_data.items %}
-              {% if records %}
-                {% for timestamp, data in records.items %}
-                {% with sentiment=data.sentiment %}
+            {% if sorted_history %}
+              <ol class="history-list">
+                {% for entry in sorted_history %}
                 <li class="history-item">
                   <div class="history-card-content">
                     <span class="history-date">
-                      {{ data.formatted_time|default:timestamp }}
+                      {{ entry.data.formatted_time|default:entry.timestamp }}
                     </span>
-
+          
                     <div>
                       <span class="badge history-type">
-                        {% if section == 'Text_Analysis' %}
+                        {% if entry.section == 'Text_Analysis' %}
                           📝 Text Analysis
-                        {% elif section == 'Doc_Analysis' %}
+                        {% elif entry.section == 'Doc_Analysis' %}
                           📄 Document Analysis
-                        {% elif section == 'Live_Speech' %}
+                        {% elif entry.section == 'Live_Speech' %}
                           🎙️ Live Speech
-                        {% elif section == 'Product_Analysis' %}
+                        {% elif entry.section == 'Product_Analysis' %}
                           📦 Product Review
-                        {% elif section == 'Image_Analysis' %}
+                        {% elif entry.section == 'Image_Analysis' %}
                           🖼️ Image Analysis
-                        {% elif section == 'News_Analysis' %}
+                        {% elif entry.section == 'News_Analysis' %}
                           📰 News Topic
-                        {% elif section == 'Audio_Analysis' %}
+                        {% elif entry.section == 'Audio_Analysis' %}
                           🎧 Audio Analysis
-                        {% elif section == 'Facebook' %}
+                        {% elif entry.section == 'Facebook' %}
                           📘 Facebook Comment
-                        {% elif section == 'Twitter' %}
+                        {% elif entry.section == 'Twitter' %}
                           🐦 Twitter Post
-                        {% elif section == 'Reddit' %}
+                        {% elif entry.section == 'Reddit' %}
                           👽 Reddit Thread
                         {% else %}
                           🔍 Analysis
                         {% endif %}
                       </span>
-                      
-  
+          
+                      {% with sentiment=entry.data.sentiment %}
                       {% if sentiment.pos > sentiment.neu and sentiment.pos > sentiment.neg %}
                         <span class="badge positive">😊 Positive</span>
                       {% elif sentiment.neg > sentiment.pos and sentiment.neg > sentiment.neu %}
@@ -189,45 +200,55 @@
                       {% else %}
                         <span class="badge neutral">😐 Neutral</span>
                       {% endif %}
+                      {% endwith %}
                     </div>
-
-                    {% if data.text %}
+          
+                    {% if entry.data.text %}
                       <span class="history-text">
-                        {{ data.text.0|default:data.text|truncatechars:80 }}
+                        {{ entry.data.text.0|default:entry.data.text|truncatechars:80 }}
                       </span>
                     {% else %}
                       <span class="history-text">No content preview available</span>
                     {% endif %}
                   </div>
-
-                  {% if section == 'Text_Analysis' %}
-                    <a class="view-btn" href="{% url 'text_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Doc_Analysis' %}
-                    <a class="view-btn" href="{% url 'document_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Live_Speech' %}
-                    <a class="view-btn" href="{% url 'live_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Product_Analysis' %}
-                    <a class="view-btn" href="{% url 'product_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Image_Analysis' %}
-                    <a class="view-btn" href="{% url 'image_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'News_Analysis' %}
-                    <a class="view-btn" href="{% url 'news_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Audio_Analysis' %}
-                    <a class="view-btn" href="{% url 'audio_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Facebook' %}
-                    <a class="view-btn" href="{% url 'facebook_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Twitter' %}
-                    <a class="view-btn" href="{% url 'twitter_history_detail' timestamp=timestamp %}">View</a>
-                  {% elif section == 'Reddit' %}
-                    <a class="view-btn" href="{% url 'reddit_history_detail' timestamp=timestamp %}">View</a>
+          
+                  {% if entry.section == 'Text_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'text_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Doc_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'document_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Live_Speech' %}
+                    <a class="btn view-btn" href="{% url 'live_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Product_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'product_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Image_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'image_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'News_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'news_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Audio_Analysis' %}
+                    <a class="btn view-btn" href="{% url 'audio_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Facebook' %}
+                    <a class="btn view-btn" href="{% url 'facebook_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Twitter' %}
+                    <a class="btn view-btn" href="{% url 'twitter_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Reddit' %}
+                    <a class="btn view-btn" href="{% url 'reddit_history_detail' timestamp=entry.timestamp %}">View</a>
                   {% endif %}
+          
+                  <!-- Delete Button -->
+                  <form method="POST" action="{% url 'delete_history_entry' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="timestamp" value="{{ entry.timestamp }}">
+                    <input type="hidden" name="section" value="{{ entry.section }}">
+                    <button type="submit" class="btn delete-btn">Delete</button>
+                  </form>
                 </li>
-                {% endwith %}
-                {% endfor %}
-                {% endif %}
                 {% endfor %}
               </ol>
-            </div>
+            {% else %}
+              <p class="no-history-message" style="text-align: center; color: #666; font-size: 1.2rem; margin-top: 20px;">
+                No history available. Start analyzing to see your results here!
+              </p>
+            {% endif %}
           </div>
         </div>
       </section>
