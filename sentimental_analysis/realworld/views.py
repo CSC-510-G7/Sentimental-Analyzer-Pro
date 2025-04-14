@@ -139,6 +139,8 @@ def settings_view(request):
     return render(request, 'realworld/settings.html')
 
 
+from datetime import datetime
+
 def history_view(request):
     user = get_user(request)
     username = user.username
@@ -156,11 +158,22 @@ def history_view(request):
         with open(file_path, 'r') as json_file:
             history_data = json.load(json_file)
 
+        # Add formatted timestamp to each entry
+        for section, records in history_data.items():
+            for timestamp, record in records.items():
+                try:
+                    dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+                    formatted = dt.strftime("%b %d, %Y at %I:%M %p")
+                    record['formatted_time'] = formatted
+                except Exception:
+                    record['formatted_time'] = timestamp  # fallback
+
     return render(
         request,
         'realworld/history.html',
         {'history_data': history_data}
     )
+
 
 
 def pdfparser(data):

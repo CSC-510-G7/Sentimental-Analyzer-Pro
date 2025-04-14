@@ -4,13 +4,16 @@ body {
   padding: 0;
 }
 
-#banner {
+#banner { 
   position: relative;
-  background: url("../images/banner-images/h1.jpg") no-repeat;
-  background-position: 70% 50% !important;
+  /* background: url("../images/banner-images/h1.jpg") no-repeat; */
+  /* background-position: 70% 50% !important; */
   color: #333;
-  padding: 20px;
+  /* padding: 20px; */
   text-align: left;
+  background-color: white;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 #banner-content.row {
@@ -70,7 +73,7 @@ body {
 /* Apply styles to .navbar */
 
 .navbar {
-  background-color: #f1ece5 !important;
+  background-color:#d96b4f!important;
   color: white;
   padding: 5px 5px;
   position: fixed;
