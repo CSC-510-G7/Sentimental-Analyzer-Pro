@@ -18,13 +18,11 @@
       background: #fbe3d8;
       border-left: 5px solid #e0674e;
       padding: 20px;
-      margin-bottom: 25px;
       border-radius: 10px;
     }
     .section-title {
       color: #e0674e;
       font-size: 1.8rem;
-      margin-bottom: 10px;
       margin-left: 40%;
     }
     .history-list {
@@ -98,8 +96,8 @@
       white-space: nowrap;
     }
     .view-btn:hover {
-      background: #f4c5b7;
-      transform: translateY(-2px);
+      background: #a33b26;
+      transform: scale(1.05);
     } 
     #about {
       margin-bottom: 10px;
@@ -133,7 +131,7 @@
 <div id="wrapper">
   {% include 'realworld/header.html' %}
   <main id="content" class="bgcol">
-    <section id="about" class="scrollto clearfix">
+    <section id="about" class="scrollto clearfix" style="background: inherit !important">
       <div class="row clearfix">
         <div class="col-1">
           <h2 class="main-heading">Sentiment History</h2>
@@ -145,20 +143,6 @@
       <div class="row clearfix">
         <div class="col-1">
           <div class="section-heading-history">
-            <!-- <h2 class="section-title">
-              {% if section == 'Text_Analysis' %}Text Analysis
-              {% elif section == 'Doc_Analysis' %}Document Analysis
-              {% elif section == 'Live_Speech' %}Live Speech Analysis
-              {% elif section == 'Product_Analysis' %}Product Analysis
-              {% elif section == 'Image_Analysis' %}Image Analysis
-              {% elif section == 'News_Analysis' %}News Analysis
-              {% elif section == 'Audio_Analysis' %}Audio Analysis
-              {% elif section == 'Facebook' %}Facebook Analysis
-              {% elif section == 'Twitter' %}Twitter Analysis
-              {% elif section == 'Reddit' %}Reddit Analysis
-              {% else %}{{ section }}
-              {% endif %}
-            </h2> -->
             <ol class="history-list">
               {% for section, records in history_data.items %}
               {% if records %}

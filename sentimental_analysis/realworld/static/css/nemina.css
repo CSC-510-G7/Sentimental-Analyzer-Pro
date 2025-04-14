@@ -48,14 +48,12 @@ body {
   color: #b24020;
 }
 
-.bgcol {
-  background-color: #f1ece5;
+section {
+  padding: 0 2rem;
+  padding-bottom: 1rem;
 }
 
-#news,
-#text,
-#live-speech,
-#twitter {
+section:nth-child(odd) {
   background-color: #f1ece5;
 }
 

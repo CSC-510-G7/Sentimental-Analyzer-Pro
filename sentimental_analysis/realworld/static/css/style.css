@@ -7394,7 +7394,7 @@ header {
   }
   
   .history-item a {
-    color: #333;
+    color: white;
     text-decoration: none;
     font-weight: 600;
   }
@@ -7784,7 +7784,7 @@ header {
 }
 
 .history-item a {
-  color: #333;
+  color: white;
   text-decoration: none;
   font-weight: 600;
 }
