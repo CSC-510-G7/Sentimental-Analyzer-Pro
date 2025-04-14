@@ -170,12 +170,60 @@ def history_view(request):
                 except Exception:
                     record['formatted_time'] = timestamp  # fallback
 
+    # Flatten and sort the history data by timestamp
+    sorted_history = []
+    for section, records in history_data.items():
+        for timestamp, data in records.items():
+            sorted_history.append({
+                'section': section,
+                'timestamp': timestamp,
+                'data': data
+            })
+    sorted_history.sort(key=lambda x: x['timestamp'], reverse=True)  # Sort by timestamp (most recent first)
+
     return render(
         request,
         'realworld/history.html',
-        {'history_data': history_data}
+        {'sorted_history': sorted_history}
     )
 
+@csrf_exempt
+@login_required
+def delete_history_entry(request):
+    if request.method == 'POST':
+        timestamp = request.POST.get('timestamp')
+        section = request.POST.get('section')
+
+        user = get_user(request)
+        username = user.username
+
+        # Define the file path
+        file_path = os.path.join(
+            "sentimental_analysis",
+            "media",
+            "user_data",
+            f"{username}.json"
+        )
+
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as json_file:
+                history_data = json.load(json_file)
+
+            # Remove the entry from the specified section
+            if section in history_data and timestamp in history_data[section]:
+                del history_data[section][timestamp]
+
+                # Save the updated data back to the file
+                with open(file_path, 'w') as json_file:
+                    json.dump(history_data, json_file, indent=4)
+
+                messages.success(request, "History entry deleted successfully.")
+            else:
+                messages.error(request, "History entry not found.")
+        else:
+            messages.error(request, "User history file not found.")
+
+        return redirect('history')  # Redirect back to the history page
 
 
 def pdfparser(data):
@@ -572,7 +620,7 @@ def batch_analysis(request):
                 'text': sentences,
                 'reviewsRatio': {i: res for i, res in enumerate(results)},
                 'totalReviews': len(results),
-                'showReviewsRatio': True
+                'showReviewsRatio': False
             }
         )
     else:

@@ -7,9 +7,6 @@
 }
 
 
-
-
-
 #head {
   font-family: "Times New Roman", Times, serif !important;
   font-size: 27px !important;
@@ -41,7 +38,7 @@ td {
 }
 
 body {
-  margin: 0;
+  margin-top: 60px !important;  /* To offset extra height of fixed navbar */
   padding: 0;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -3590,7 +3587,7 @@ header {
 
 .navbar-links {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -3642,7 +3639,7 @@ header {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar-toggle {
     display: block;
   }
@@ -3677,7 +3674,6 @@ header {
 /* === Hover effects for your actual nav === */
 .navbar-links > a:hover,
 .dropbtn:hover {
-  color: #d1baba;*,
   *:before,
   *:after {
     -webkit-box-sizing: border-box;
@@ -7398,7 +7394,7 @@ header {
   }
   
   .history-item a {
-    color: #333;
+    color: white;
     text-decoration: none;
     font-weight: 600;
   }
@@ -7788,7 +7784,7 @@ header {
 }
 
 .history-item a {
-  color: #333;
+  color: white;
   text-decoration: none;
   font-weight: 600;
 }

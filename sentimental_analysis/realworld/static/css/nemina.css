@@ -48,14 +48,12 @@ body {
   color: #b24020;
 }
 
-.bgcol {
-  background-color: #f1ece5;
+section {
+  padding: 0 2rem;
+  padding-bottom: 1rem;
 }
 
-#news,
-#text,
-#live-speech,
-#twitter {
+section:nth-child(odd) {
   background-color: #f1ece5;
 }
 
@@ -75,7 +73,7 @@ body {
 .navbar {
   background-color:#d96b4f!important;
   color: white;
-  padding: 5px 5px;
+  padding: 1rem 2rem;
   position: fixed;
   width: 100%;
   top: 0;
@@ -121,6 +119,15 @@ body {
 .navbar li a:active {
   background-color: #fff;
   color: #b24020;
+}
+
+.navbar-links > * {
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+}
+
+.navbar-links > *:hover {
+  background-color: #eb8b73;
 }
 
 #pro {
