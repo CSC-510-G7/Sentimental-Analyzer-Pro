@@ -63,14 +63,18 @@
       margin-top: 6px;
       font-style: italic;
     }
-    .sentiment-badge {
+    .badge {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 4px 12px 6px 8px;
       font-size: 0.85rem;
       border-radius: 20px;
       font-weight: bold;
       margin-top: 6px;
       width: fit-content;
+    }
+    .history-type {
+      background-color: #c1e9ff;
+      color: #444;
     }
     .positive {
       background-color: #c2f0c2;
@@ -166,40 +170,42 @@
                       {{ data.formatted_time|default:timestamp }}
                     </span>
 
-                    <span class="history-type">
-                      {% if section == 'Text_Analysis' %}
-                        📝 Text Analysis
-                      {% elif section == 'Doc_Analysis' %}
-                        📄 Document Analysis
-                      {% elif section == 'Live_Speech' %}
-                        🎙️ Live Speech
-                      {% elif section == 'Product_Analysis' %}
-                        📦 Product Review
-                      {% elif section == 'Image_Analysis' %}
-                        🖼️ Image Analysis
-                      {% elif section == 'News_Analysis' %}
-                        📰 News Topic
-                      {% elif section == 'Audio_Analysis' %}
-                        🎧 Audio Analysis
-                      {% elif section == 'Facebook' %}
-                        📘 Facebook Comment
-                      {% elif section == 'Twitter' %}
-                        🐦 Twitter Post
-                      {% elif section == 'Reddit' %}
-                        👽 Reddit Thread
+                    <div>
+                      <span class="badge history-type">
+                        {% if section == 'Text_Analysis' %}
+                          📝 Text Analysis
+                        {% elif section == 'Doc_Analysis' %}
+                          📄 Document Analysis
+                        {% elif section == 'Live_Speech' %}
+                          🎙️ Live Speech
+                        {% elif section == 'Product_Analysis' %}
+                          📦 Product Review
+                        {% elif section == 'Image_Analysis' %}
+                          🖼️ Image Analysis
+                        {% elif section == 'News_Analysis' %}
+                          📰 News Topic
+                        {% elif section == 'Audio_Analysis' %}
+                          🎧 Audio Analysis
+                        {% elif section == 'Facebook' %}
+                          📘 Facebook Comment
+                        {% elif section == 'Twitter' %}
+                          🐦 Twitter Post
+                        {% elif section == 'Reddit' %}
+                          👽 Reddit Thread
+                        {% else %}
+                          🔍 Analysis
+                        {% endif %}
+                      </span>
+                      
+  
+                      {% if sentiment.pos > sentiment.neu and sentiment.pos > sentiment.neg %}
+                        <span class="badge positive">😊 Positive</span>
+                      {% elif sentiment.neg > sentiment.pos and sentiment.neg > sentiment.neu %}
+                        <span class="badge negative">😞 Negative</span>
                       {% else %}
-                        🔍 Analysis
+                        <span class="badge neutral">😐 Neutral</span>
                       {% endif %}
-                    </span>
-                    
-
-                    {% if sentiment.pos > sentiment.neu and sentiment.pos > sentiment.neg %}
-                      <span class="sentiment-badge positive">😊 Positive</span>
-                    {% elif sentiment.neg > sentiment.pos and sentiment.neg > sentiment.neu %}
-                      <span class="sentiment-badge negative">😞 Negative</span>
-                    {% else %}
-                      <span class="sentiment-badge neutral">😐 Neutral</span>
-                    {% endif %}
+                    </div>
 
                     {% if data.text %}
                       <span class="history-text">
