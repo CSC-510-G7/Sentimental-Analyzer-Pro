@@ -141,27 +141,27 @@
       </div>
     </section>
 
-    {% for section, records in history_data.items %}
-      {% if records %}
-      <section id="{{ section|slugify }}" class="scrollto clearfix">
-        <div class="row no-padding-bottom clearfix">
-          <div class="col-1">
-            <div class="section-heading-history">
-              <h2 class="section-title">
-                {% if section == 'Text_Analysis' %}Text Analysis
-                {% elif section == 'Doc_Analysis' %}Document Analysis
-                {% elif section == 'Live_Speech' %}Live Speech Analysis
-                {% elif section == 'Product_Analysis' %}Product Analysis
-                {% elif section == 'Image_Analysis' %}Image Analysis
-                {% elif section == 'News_Analysis' %}News Analysis
-                {% elif section == 'Audio_Analysis' %}Audio Analysis
-                {% elif section == 'Facebook' %}Facebook Analysis
-                {% elif section == 'Twitter' %}Twitter Analysis
-                {% elif section == 'Reddit' %}Reddit Analysis
-                {% else %}{{ section }}
-                {% endif %}
-              </h2>
-              <ol class="history-list">
+    <section id="{{ section|slugify }}" class="scrollto clearfix">
+      <div class="row clearfix">
+        <div class="col-1">
+          <div class="section-heading-history">
+            <!-- <h2 class="section-title">
+              {% if section == 'Text_Analysis' %}Text Analysis
+              {% elif section == 'Doc_Analysis' %}Document Analysis
+              {% elif section == 'Live_Speech' %}Live Speech Analysis
+              {% elif section == 'Product_Analysis' %}Product Analysis
+              {% elif section == 'Image_Analysis' %}Image Analysis
+              {% elif section == 'News_Analysis' %}News Analysis
+              {% elif section == 'Audio_Analysis' %}Audio Analysis
+              {% elif section == 'Facebook' %}Facebook Analysis
+              {% elif section == 'Twitter' %}Twitter Analysis
+              {% elif section == 'Reddit' %}Reddit Analysis
+              {% else %}{{ section }}
+              {% endif %}
+            </h2> -->
+            <ol class="history-list">
+              {% for section, records in history_data.items %}
+              {% if records %}
                 {% for timestamp, data in records.items %}
                 {% with sentiment=data.sentiment %}
                 <li class="history-item">
@@ -240,13 +240,13 @@
                 </li>
                 {% endwith %}
                 {% endfor %}
+                {% endif %}
+                {% endfor %}
               </ol>
             </div>
           </div>
         </div>
       </section>
-      {% endif %}
-    {% endfor %}
   </main>
   {% include 'realworld/footer.html' %}
 </div>
