@@ -164,7 +164,7 @@
                     <span class="history-date">
                       {{ entry.data.formatted_time|default:entry.timestamp }}
                     </span>
-          
+
                     <div>
                       <span class="badge history-type">
                         {% if entry.section == 'Text_Analysis' %}
@@ -186,12 +186,14 @@
                         {% elif entry.section == 'Twitter' %}
                           🐦 Twitter Post
                         {% elif entry.section == 'Reddit' %}
-                          👽 Reddit Thread
+                          🤖 Reddit Thread
+                        {% elif entry.section == 'Youtube' %}
+                          ▶️ Youtube Video
                         {% else %}
                           🔍 Analysis
                         {% endif %}
                       </span>
-          
+
                       {% with sentiment=entry.data.sentiment %}
                       {% if sentiment.pos > sentiment.neu and sentiment.pos > sentiment.neg %}
                         <span class="badge positive">😊 Positive</span>
@@ -202,7 +204,7 @@
                       {% endif %}
                       {% endwith %}
                     </div>
-          
+
                     {% if entry.data.text %}
                       <span class="history-text">
                         {{ entry.data.text.0|default:entry.data.text|truncatechars:80 }}
@@ -211,7 +213,7 @@
                       <span class="history-text">No content preview available</span>
                     {% endif %}
                   </div>
-          
+
                   {% if entry.section == 'Text_Analysis' %}
                     <a class="btn view-btn" href="{% url 'text_history_detail' timestamp=entry.timestamp %}">View</a>
                   {% elif entry.section == 'Doc_Analysis' %}
@@ -232,8 +234,10 @@
                     <a class="btn view-btn" href="{% url 'twitter_history_detail' timestamp=entry.timestamp %}">View</a>
                   {% elif entry.section == 'Reddit' %}
                     <a class="btn view-btn" href="{% url 'reddit_history_detail' timestamp=entry.timestamp %}">View</a>
+                  {% elif entry.section == 'Youtube' %}
+                    <a class="btn view-btn" href="{% url 'youtube_history_detail' timestamp=entry.timestamp %}">View</a>
                   {% endif %}
-          
+
                   <!-- Delete Button -->
                   <form method="POST" action="{% url 'delete_history_entry' %}">
                     {% csrf_token %}

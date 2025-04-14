@@ -53,7 +53,8 @@ from realworld.history_manager import (
     store_facebook_data,
     store_twitter_data,
     store_reddit_data,
-    store_product_analysis
+    store_product_analysis,
+    store_youtube_data
 )
 from realworld.youtube_scrap import get_transcript, get_top_liked_comments
 
@@ -666,7 +667,7 @@ def youtube_transcript_analysis(request):
                     }
                 results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
 
-        store_text_analysis(
+        store_youtube_data(
             request,
             data={
                 'sentiment': calculate_average_sentiment(results),
@@ -719,7 +720,7 @@ def youtube_comments_analysis(request):
                 if sentiment_result:
                     results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
 
-        store_text_analysis(
+        store_youtube_data(
             request,
             data={
                 'sentiment': calculate_average_sentiment(results),
@@ -1372,6 +1373,41 @@ def reddit_history_detail(request, timestamp):
 
     if analysis_data is None:
         return HttpResponse("Analysis data not found for Reddit", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+def youtube_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Youtube', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for Youtube", status=404)
 
     return render(
         request,
