@@ -35,7 +35,7 @@
     .history-item {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       background: #fff;
       border: 1px solid #eee;
       padding: 14px 20px;
@@ -93,10 +93,10 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .history-item:hover {
+    .view-btn:hover {
       background: #f4c5b7;
       transform: translateY(-2px);
-    }
+    } 
     #about {
       margin-bottom: 10px;
     }
@@ -165,6 +165,33 @@
                     <span class="history-date">
                       {{ data.formatted_time|default:timestamp }}
                     </span>
+
+                    <span class="history-type">
+                      {% if section == 'Text_Analysis' %}
+                        📝 Text Analysis
+                      {% elif section == 'Doc_Analysis' %}
+                        📄 Document Analysis
+                      {% elif section == 'Live_Speech' %}
+                        🎙️ Live Speech
+                      {% elif section == 'Product_Analysis' %}
+                        📦 Product Review
+                      {% elif section == 'Image_Analysis' %}
+                        🖼️ Image Analysis
+                      {% elif section == 'News_Analysis' %}
+                        📰 News Topic
+                      {% elif section == 'Audio_Analysis' %}
+                        🎧 Audio Analysis
+                      {% elif section == 'Facebook' %}
+                        📘 Facebook Comment
+                      {% elif section == 'Twitter' %}
+                        🐦 Twitter Post
+                      {% elif section == 'Reddit' %}
+                        👽 Reddit Thread
+                      {% else %}
+                        🔍 Analysis
+                      {% endif %}
+                    </span>
+                    
 
                     {% if sentiment.pos > sentiment.neu and sentiment.pos > sentiment.neg %}
                       <span class="sentiment-badge positive">😊 Positive</span>

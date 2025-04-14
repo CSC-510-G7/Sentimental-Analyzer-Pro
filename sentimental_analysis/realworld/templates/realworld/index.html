@@ -94,23 +94,25 @@
       <div id="wrapper">
          <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
             {% include 'realworld/header.html' %}
-            <div id="banner-content" class="row clearfix">
-               <div class="section-heading">
-                  <div class="col-38">
-                     <h1>Sentiment Analyzer Pro</h1>
-                     <div class="separator"></div>
-                     <h2 id="head">
-                        <br>Have you ever wondered what sentiments are behind the reviews on Amazon or maybe what someone says or what someone writes. Here we have created an elegant solution to such queries by having an analysis of these sentiments from the given input. <br><br>
-                     </h2>
-                     <div class="separator"></div>
-                  </div>
-               </div>
-            </div>
-            <div class="sep"></div>
-         </header>
+          
+            <section id="hero-banner">
+              <div class="hero-overlay">
+                <div class="hero-textbox">
+                  <h1 class="hero-title">Sentiment Analyzer Pro</h1>  
+                  <p class="hero-subtext">
+                
+                     <strong>What if you could read between the lines?</strong><br>
+                     From Amazon reviews to everyday conversations — every word carries emotion.
+                     <strong>Sentiment Analyzer Pro</strong> helps you decode the mood behind the message — fast, smart, and beautifully simple.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </header>
+          
          
          <main id="content" class="bgcol">
-            <section id="about" class="introduction scrollto">
+            <section id="about" class="introduction scrollto" style="margin-left: :17px;">
                <div class="row clearfix" >
                   
                      <div class="col-1-2">
@@ -533,3 +535,33 @@
       </script>
    </body>
 </html>
+<style>
+@media (max-width: 768px) {
+  .banner-toggle-btn {
+    background-color: #e0674e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .banner-text-wrapper {
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .banner-text-wrapper.active {
+    display: block;
+  }
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.getElementById("toggleBannerText");
+  const textBox = document.querySelector(".banner-text-wrapper");
+  toggleBtn?.addEventListener("click", function () {
+    textBox?.classList.toggle("active");
+  });
+});
+</script>

@@ -4,14 +4,15 @@ body {
   padding: 0;
 }
 
-#banner {
+#banner { 
   position: relative;
-  background: url("../images/banner-images/h1.jpg") no-repeat;
-  background-position: 70% 50% !important;
+  /* background: url("../images/banner-images/h1.jpg") no-repeat; */
+  /* background-position: 70% 50% !important; */
   color: #333;
-  padding: 20px;
+  /* padding: 20px; */
   text-align: left;
-}
+  background-color: white;
+} */
 
 #banner-content.row {
   padding-top: 170px;
