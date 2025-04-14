@@ -655,7 +655,8 @@ def youtube_comments_analysis(request):
                         'neg': result_classifier.get('negative', 0.0),
                         'neu': result_classifier.get('neutral', 0.0)
                     }
-                results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
+                if sentiment_result:
+                    results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
 
         store_text_analysis(
             request,
