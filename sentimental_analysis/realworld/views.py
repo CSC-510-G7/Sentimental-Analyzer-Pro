@@ -619,7 +619,7 @@ def batch_analysis(request):
                 'text': sentences,
                 'reviewsRatio': {i: res for i, res in enumerate(results)},
                 'totalReviews': len(results),
-                'showReviewsRatio': True
+                'showReviewsRatio': False
             }
         )
     else:

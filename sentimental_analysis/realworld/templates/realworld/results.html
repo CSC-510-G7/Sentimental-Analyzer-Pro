@@ -16,7 +16,8 @@
   <div id="wrapper">
     {% include 'realworld/header.html' %}
     <main id="content">
-      {% if showReviewsRatio %}
+      <!-- Short circuit to always skip rendering proudct view because it doesn't work -->
+      {% if showReviewsRatio and False %}
       <div id="productReviews">
         <div class="tab-container">
           <div class="tabs">
