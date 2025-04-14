@@ -191,7 +191,9 @@
                         {% elif section == 'Twitter' %}
                           🐦 Twitter Post
                         {% elif section == 'Reddit' %}
-                          👽 Reddit Thread
+                          🤖 Reddit Thread
+                        {% elif section == 'Youtube' %}
+                          ▶️ Youtube Analysis
                         {% else %}
                           🔍 Analysis
                         {% endif %}
@@ -236,6 +238,8 @@
                     <a class="view-btn" href="{% url 'twitter_history_detail' timestamp=timestamp %}">View</a>
                   {% elif section == 'Reddit' %}
                     <a class="view-btn" href="{% url 'reddit_history_detail' timestamp=timestamp %}">View</a>
+                  {% elif section == 'Youtube' %}
+                    <a class="view-btn" href="{% url 'youtube_history_detail' timestamp=timestamp %}">View</a>
                   {% endif %}
                 </li>
                 {% endwith %}

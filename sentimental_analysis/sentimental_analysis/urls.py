@@ -157,6 +157,10 @@ urlpatterns = [
         realworld.views.reddit_history_detail,
         name='reddit_history_detail'),
     path(
+        'history/youtube/<str:timestamp>/',
+        realworld.views.youtube_history_detail,
+        name='youtube_history_detail'),
+    path(
         'history/twitter/<str:timestamp>/',
         realworld.views.twitter_history_detail,
         name='twitter_history_detail'),
