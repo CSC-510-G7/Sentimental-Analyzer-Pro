@@ -794,10 +794,6 @@ h6 {
   padding-top: 5%;
 }
 
-#banner {
-  margin-left: auto;
-}
-
 #banner .section-heading:before {
   content: "";
   display: block;
