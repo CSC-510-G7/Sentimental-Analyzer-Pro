@@ -98,5 +98,61 @@ class TestTextProcessing(unittest.TestCase):
         result = sentiment_scores(text)
         self.assertAlmostEqual(result['compound'], 0, delta=0.2)
 
+    def test_removeLinks_multiple(self):
+        text = "Check out https://example.com and http://test.com for details."
+        result = removeLinks(text)
+        self.assertEqual(result, "Check out  and  for details.")
+
+    def test_stripEmojis_multiple(self):
+        text = "Great job! 👍🔥💯"
+        result = stripEmojis(text)
+        self.assertEqual(result, "Great job! ")
+
+    def test_stripPunctuations_only_punctuations(self):
+        text = "!!!???...,,,"
+        result = stripPunctuations(text)
+        self.assertEqual(result, "")
+
+    def test_stripExtraWhiteSpaces_on_edges(self):
+        text = " This is a test string.  "
+        result = stripExtraWhiteSpaces(text)
+        self.assertEqual(result, "This is a test string.")
+
+    def test_removeSpecialChar_with_unicode_symbols(self):
+        text = "Clean ✨ that ✨ mess!"
+        result = removeSpecialChar(text)
+        self.assertEqual(result, "Clean  that  mess")
+
+    def test_sentiment_scores_strong_positive(self):
+        text = "Absolutely incredible! I loved every bit of it. Fantastic!"
+        result = sentiment_scores(text)
+        self.assertGreater(result['compound'], 0.5)
+
+    def test_sentiment_scores_strong_negative(self):
+        text = "Horrible experience. The worst I've ever had. Terrible product!"
+        result = sentiment_scores(text)
+        self.assertLess(result['compound'], -0.5)
+
+    def test_sentiment_scores_mixed(self):
+        text = "The vacuum is great, but it’s a bit loud and heavy."
+        result = sentiment_scores(text)
+        self.assertTrue(-0.2 < result['compound'] < 0.5)
+
+    def test_stripPunctuations_retains_numbers_and_letters(self):
+        text = "Model-X300: now available for $299.99!"
+        result = stripPunctuations(text)
+        self.assertEqual(result, "ModelX300 now available for 29999")
+
+    def test_removeSpecialChar_retains_alphanumeric(self):
+        text = "A1B2C3@#^&*"
+        result = removeSpecialChar(text)
+        self.assertEqual(result, "A1B2C3")
+
+    def test_stripExtraWhiteSpaces_with_no_extra(self):
+        text = "This is normal spacing."
+        result = stripExtraWhiteSpaces(text)
+        self.assertEqual(result, "This is normal spacing.")
+
+
 if __name__ == '__main__':
     unittest.main()
