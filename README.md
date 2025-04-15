@@ -270,9 +270,11 @@ docker run -p 8000:8000 sentimental-analysis
 
 ### Current Improvements
 - [x] Added a chrome extension to analyze the sentiment of any text on the web
+  - [x] Supports analyzing both highlighted text and entire webpages
 - [x] Added a feature to analyze the transcript or comments of a YouTube video
-- [x] FULLY revamped the analysis history page to include extremely clean UI with sentiment previews, a delete option, and a download option
-- [x] Enhanced UI/UX for a more responsive, mobile-friendly design
+- [x] FULLY revamped the analysis history page to include extremely clean UI with sentiment previews, and a delete option
+- [x] Added data management feature to export analysis history
+- [x] Enhanced UI/UX for a more responsive, mobile-friendly, and more generally user-friendly design
 
 
 ### Future Scope
