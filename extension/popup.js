@@ -11,9 +11,10 @@ chrome.storage.local.get({ loading: false, analysisResult: null }, (result) => {
     analyzeFullButton.disabled = true;
     analyzeSelectedButton.disabled = true;
     analyzeSelectedText.hidden = true;
-    loadingIndicator.hidden = true;
+    resultsContainer.hidden = true;
+    loadingIndicator.hidden = false;
   }
-  if (result.analysisResult) {
+  else if (result.analysisResult) {
     renderAnalysisResult(result.analysisResult);
   }
 });
