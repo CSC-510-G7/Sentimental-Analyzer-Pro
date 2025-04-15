@@ -8,11 +8,9 @@
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
       <link rel="shortcut icon" href="{% static "images/favicon-black.ico" %}" title="Favicon"/>
-      <link rel="stylesheet" href="{% static "css/bg.css" %}">
       <link rel="stylesheet" href="{% static "css/style.css" %}">
       <link rel="stylesheet" href="{% static "css/dynamic.css" %}">
       <link rel="stylesheet" href="{% static "css/nemina.css" %}">
-      <link rel="stylesheet" href="{% static "css/header.css" %}">
       <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"">
       <link href="{% static "css/animate.css" %}" rel="stylesheet" type="text/css">
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -302,39 +300,21 @@
                   </div>
                </div>
             </section>
-            <!-- <section id="text" class="scrollto clearfix">
+            <section id="text" class="scrollto clearfix">
                <div class="row no-padding-bottom clearfix">
                   <div class="col-1" style="padding-left: 0px;">
                      <div class="section-heading">
                         <h2 class="section-title">Text Analysis</h2>
                         <form action = "{% url "text analysis" %}" method = "post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <label for="textField" class="form-label">Write here:</label>
-                        <input type="textField" id="text" class="line-edit" name="textField" required>
+                        <label for="textField" class="form-label">Enter Text Here</label>
+                        <textarea id="textField" class="line-edit" name="textField" rows="5" required></textarea>
                         <button type="submit" id ="myButton2"class="button">Analyze</button>
                         </form>
                      </div>
                   </div>
                </div>
-            </section> -->
-            <section id="text" class="scrollto clearfix">
-               <div class="row no-padding-bottom clearfix">
-                   <div class="col-1" style="padding-left: 0px;">
-                       <div class="section-heading">
-                           <h2 class="section-title">Text Analysis</h2>
-                           <p class="section-subtitle">Type the text you want to analyze and Sentiment Analyzer Pro will report back the sentiments.</p>
-           
-                           <!-- Batch Text Analysis -->
-                           <form action="{% url 'batch_text_analysis' %}" method="post" enctype="multipart/form-data" class="mt-4">
-                               {% csrf_token %}
-                               <label for="batchTextField" class="form-label">Enter Text Here</label>
-                               <textarea id="batchTextField" class="line-edit" name="batchTextField" rows="5" required></textarea>
-                               <button type="submit" id="batchButton" class="button">Analyze Text</button>
-                           </form>
-                       </div>
-                   </div>
-               </div>
-           </section>
+            </section>
             <section id="audio" class="scrollto clearfix">
                <div class="row no-padding-bottom clearfix">
                   <div class="col-1" style="padding-left: 0px;">
