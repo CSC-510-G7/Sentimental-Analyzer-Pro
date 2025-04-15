@@ -983,7 +983,7 @@ def audioanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False
@@ -1026,7 +1026,7 @@ def livespeechanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False
