@@ -31,7 +31,6 @@ def create_storage(username):
                 "Facebook": {},
                 "Twitter": {},
                 "Reddit": {},
-                "Youtube": {},
             }, json_file)
 
 
@@ -324,7 +323,6 @@ def store_reddit_data(request, data):
     with open(file_path, 'w') as json_file:
         json.dump(existing_data, json_file, indent=4)
 
-
 def store_youtube_data(request, data):
     # Get the username of the current user
     user = get_user(request)
@@ -344,7 +342,7 @@ def store_youtube_data(request, data):
     with open(file_path, 'r') as json_file:
         existing_data = json.load(json_file)
 
-    # Update the "Youtube" section with the new data
+    # Update the "Reddit" section with the new data
     if "Youtube" not in existing_data:
         existing_data["Youtube"] = {}
     existing_data["Youtube"][timestamp] = data
