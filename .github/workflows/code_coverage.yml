@@ -23,7 +23,12 @@ jobs:
         echo requirements installed
     - name: Run the tests
       env:
-        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }} 
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SCRAPEOPS_API_SECRET: ${{ secrets.SCRAPEOPS_API_SECRET }}
       run: |
           pip install -r requirements.txt
           python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('vader_lexicon')"
