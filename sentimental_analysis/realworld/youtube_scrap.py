@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 from urllib.parse import urlparse, parse_qs
 import os
 
+
 def extract_video_id(url):
     """Extracts the YouTube video ID from a YouTube URL."""
     parsed_url = urlparse(url)
@@ -17,8 +18,8 @@ def extract_video_id(url):
 
     return None
 
-def get_transcript(video_link):
 
+def get_transcript(video_link):
     video_id = extract_video_id(video_link)
 
     try:
@@ -26,12 +27,12 @@ def get_transcript(video_link):
         transcription = ytt_api.fetch(video_id=video_id)
         transcript_text = ' '.join([snippet.text for snippet in transcription])
         return transcript_text
-    except:
-        print('Error getting transcription')
+    except Exception as e:  # Fixed E722
+        print(f"Error getting transcription: {e}")
         return None
 
-def get_top_liked_comments(video_link, max_results=10):
 
+def get_top_liked_comments(video_link, max_results=10):
     video_id = extract_video_id(video_link)
     API_KEY = os.environ.get('YOUTUBE_API_KEY')
     YOUTUBE_API_SERVICE_NAME = 'youtube'

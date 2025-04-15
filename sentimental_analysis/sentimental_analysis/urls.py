@@ -109,7 +109,7 @@ urlpatterns = [
         name='download_history'
     ),
     path(
-        'delete-history-entry/', 
+        'delete-history-entry/',
         realworld.views.delete_history_entry,
         name='delete_history_entry'
     ),

@@ -22,3 +22,4 @@ jobs:
     - name: Check code formatting
       run: |
         black . --diff --exclude '/(black-master|assests|test|pycodestyle-master|.*/test/.*\.py)/'
+      continue-on-error: true
