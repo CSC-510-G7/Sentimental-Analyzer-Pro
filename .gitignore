@@ -246,3 +246,7 @@ cython_debug/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Test artifacts
+sentimental_analysis/realworld/news.json
+news_cache.json
