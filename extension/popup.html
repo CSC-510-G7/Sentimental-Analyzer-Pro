@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Text Analyzer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 1rem;
+      width: 300px;
+    }
+    button, #results-target {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 8px 12px;
+      background: #d96b4f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    button:hover, #results-target:hover {
+      background-color: #eb8b73;
+    }
+    button:disabled {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+    #results-source {
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sentiment Analyzer Pro</h1>
+  <button id="analyze-full">Analyze Entire Page</button>
+  <button id="analyze-selected" style="margin-bottom: 0.5rem;" disabled>Analyze Selected Text</button>
+  <div id="analyze-selected-text">You don't have an active text selection. Selections can also be analyzed from within the page.</div>
+
+  <div id="results" hidden>
+    <div id="results-header">
+      <h2 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Analysis Results</h2>
+      <p id="results-source">Source: <a href="https://en.wikipedia.org/wiki/Arctic_Ocean" target="_blank">https://en.wikipedia.org/wiki/Arctic_Ocean</a></p>
+      <!-- Sentiment bar -->
+      <div id="sentiment-bar" style="display: flex; height: 20px; margin-top: 1rem; border-radius: 4px; overflow: hidden;">
+        <div id="sentiment-pos" style="background-color: #8bc34a; width: 0%;"></div>
+        <div id="sentiment-neu" style="background-color: #ffeb3b; width: 0%;"></div>
+        <div id="sentiment-neg" style="background-color: #f44336; width: 0%;"></div>
+      </div>
+      <p id="sentiment-percentages" style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></p>
+      <a id="results-target" href="" target="_blank">View Details 🗗</a>
+    </div>
+  </div>
+
+  <div id="loading-indicator" style="margin: 1rem 0;" hidden>
+    <div style="border: 4px solid #ccc; border-top: 4px solid #d96b4f; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+    <p style="color: #666; margin-top: 0.5rem; text-align: center">&nbsp;&nbsp;&nbsp;Analyzing text...</p>
+  </div>
+
+  <style>
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <script src="popup.js"></script>
+</body>
+</html>
