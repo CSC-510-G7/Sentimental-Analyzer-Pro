@@ -187,6 +187,30 @@ def history_view(request):
         {'sorted_history': sorted_history}
     )
 
+@login_required
+def download_history(request):
+    user = get_user(request)
+    username = user.username
+
+    # Define the file path
+    file_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data",
+        f"{username}.json"
+    )
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+        response = JsonResponse(history_data, safe=False)
+        response['Content-Disposition'] = f'attachment; filename="{username}_history.json"'
+        response['Content-Type'] = 'application/json'
+        return response
+    else:
+        return JsonResponse({'error': 'No history data found.'}, status=404)
+
 @csrf_exempt
 @login_required
 def delete_history_entry(request):
@@ -959,7 +983,7 @@ def audioanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False
@@ -1002,7 +1026,7 @@ def livespeechanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False

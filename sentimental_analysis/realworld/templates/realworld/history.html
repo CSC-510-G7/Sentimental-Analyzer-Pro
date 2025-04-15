@@ -146,12 +146,15 @@
       <div class="row clearfix">
         <div class="col-1">
           <h2 class="main-heading">Sentiment History</h2>
+          <a href="{% url 'download_history' %}" class="btn view-btn" style="margin-top: 0px; display: inline-block;">
+            📥 Download History
+          </a>
         </div>
       </div>
     </section>
 
     <section id="{{ section|slugify }}" class="scrollto clearfix">
-      <div class="row clearfix">
+      <div class="row clearfix" style="margin-top: 0 !important">
         <div class="col-1">
           <div class="section-heading-history">
             {% if sorted_history %}
