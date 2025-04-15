@@ -1,0 +1,24 @@
+#analyze-selected-btn {
+  position: absolute;
+  padding: 6px 12px;
+  background-color: #d96b4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  z-index: 9999;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  border: 1px solid black;
+
+  transition: background-color 0.2s;
+}
+
+#analyze-selected-btn {
+  top: 10px;
+  left: 10px;
+}
+
+#analyze-selected-btn:hover {
+  background-color: #eb8b73;
+}

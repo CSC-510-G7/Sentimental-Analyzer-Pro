@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaulttags import register
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
 from pdfminer.converter import TextConverter
@@ -186,6 +186,30 @@ def history_view(request):
         'realworld/history.html',
         {'sorted_history': sorted_history}
     )
+
+@login_required
+def download_history(request):
+    user = get_user(request)
+    username = user.username
+
+    # Define the file path
+    file_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data",
+        f"{username}.json"
+    )
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+        response = JsonResponse(history_data, safe=False)
+        response['Content-Disposition'] = f'attachment; filename="{username}_history.json"'
+        response['Content-Type'] = 'application/json'
+        return response
+    else:
+        return JsonResponse({'error': 'No history data found.'}, status=404)
 
 @csrf_exempt
 @login_required
@@ -535,8 +559,8 @@ def productanalysis(request):
             {'note': note}
         )
 
-
-def textanalysis(request): # unused now
+@csrf_exempt
+def textanalysis(request):
     if request.method == 'POST':
         text_data = request.POST.get("textField", "")
         final_comment = text_data.split('.')
@@ -555,6 +579,7 @@ def textanalysis(request): # unused now
                 'neu': result_classifier.get('neutral', 0.0),
                 'neg': result_classifier.get('negative', 0.0)
             }
+        
         store_text_analysis(
             request,
             data={
@@ -565,6 +590,16 @@ def textanalysis(request): # unused now
                     'showReviewsRatio': False
             }
         )
+        
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Check if the request is an AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'sentiment': result,
+                'results_url': request.build_absolute_uri(f'/history/text/{timestamp}/')
+            })
+        
         return render(
             request,
             'realworld/results.html',
@@ -580,6 +615,8 @@ def textanalysis(request): # unused now
         note = "Enter the Text to be analysed!"
         return render(request, 'realworld/textanalysis.html', {'note': note})
 
+
+# Unused now
 def batch_analysis(request):
     if request.method == 'POST':
         full_text_data = request.POST.get("batchTextField", "")
@@ -946,7 +983,7 @@ def audioanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False
@@ -989,7 +1026,7 @@ def livespeechanalysis(request):
             request,
             data={
                 'sentiment': result,
-                'text': finalText,
+                'text': [finalText],
                 'reviewsRatio': {},
                 'totalReviews': 1,
                 'showReviewsRatio': False
