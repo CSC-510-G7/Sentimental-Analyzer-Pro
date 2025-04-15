@@ -30,7 +30,6 @@ from django.contrib.auth import (
     update_session_auth_hash,
     get_user
 )
-from datetime import datetime
 from .cache_manager import AnalysisCache
 from .newsScraper import scrapNews
 from .utilityFunctions import (
@@ -142,6 +141,8 @@ def settings_view(request):
     return render(request, 'realworld/settings.html')
 
 
+from datetime import datetime
+
 def history_view(request):
     user = get_user(request)
     username = user.username
@@ -186,7 +187,6 @@ def history_view(request):
         {'sorted_history': sorted_history}
     )
 
-
 @login_required
 def download_history(request):
     user = get_user(request)
@@ -205,14 +205,11 @@ def download_history(request):
             history_data = json.load(json_file)
 
         response = JsonResponse(history_data, safe=False)
-        response['Content-Disposition'] = (
-            f'attachment; filename="{username}_history.json"'
-        )
+        response['Content-Disposition'] = f'attachment; filename="{username}_history.json"'
         response['Content-Type'] = 'application/json'
         return response
     else:
         return JsonResponse({'error': 'No history data found.'}, status=404)
-
 
 @csrf_exempt
 @login_required
@@ -562,7 +559,6 @@ def productanalysis(request):
             {'note': note}
         )
 
-
 @csrf_exempt
 def textanalysis(request):
     if request.method == 'POST':
@@ -583,27 +579,27 @@ def textanalysis(request):
                 'neu': result_classifier.get('neutral', 0.0),
                 'neg': result_classifier.get('negative', 0.0)
             }
-
+        
         store_text_analysis(
             request,
             data={
-                'sentiment': result,
-                'text': finalText,
-                'reviewsRatio': {},
-                'totalReviews': 1,
-                'showReviewsRatio': False
+                    'sentiment': result,
+                    'text': finalText,
+                    'reviewsRatio': {},
+                    'totalReviews': 1,
+                    'showReviewsRatio': False
             }
         )
-
+        
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+        
         # Check if the request is an AJAX request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'sentiment': result,
                 'results_url': request.build_absolute_uri(f'/history/text/{timestamp}/')
             })
-
+        
         return render(
             request,
             'realworld/results.html',
@@ -625,7 +621,7 @@ def batch_analysis(request):
     if request.method == 'POST':
         full_text_data = request.POST.get("batchTextField", "")
         # sentences = full_text_data.split('.')
-        sentences = nltk.sent_tokenize(full_text_data)  # better than splitting by period (accomodates abbreviations like U.S.A.)
+        sentences = nltk.sent_tokenize(full_text_data) # better than splitting by period (accomodates abbreviations like U.S.A.)
         results = []
 
         for sentence in sentences:
@@ -648,7 +644,7 @@ def batch_analysis(request):
             data={
                 'sentiment': calculate_average_sentiment(results),
                 'text': sentences,
-                'reviewsRatio': {i: res for i, res in enumerate(results)},  # Store individual sentence results
+                'reviewsRatio': {i: res for i, res in enumerate(results)}, # Store individual sentence results
                 'totalReviews': len(results),
                 'showReviewsRatio': True
             }
@@ -668,7 +664,6 @@ def batch_analysis(request):
         note = "Enter the Text to be analysed!"
         return render(request, 'realworld/textanalysis.html', {'note': note})
 
-
 def calculate_average_sentiment(results):
     if not results:
         return {'pos': 0.0, 'neg': 0.0, 'neu': 0.0}
@@ -681,3 +676,905 @@ def calculate_average_sentiment(results):
         'neg': total_neg / num_results,
         'neu': total_neu / num_results
     }
+
+def youtube_transcript_analysis(request):
+    if request.method == 'POST':
+        video_link = request.POST.get("vidlink", "")
+        full_text_data = get_transcript(video_link=video_link)
+
+        if not full_text_data:
+            return 404 # link didn't work
+        
+        # sentences = full_text_data.split('.')
+        sentences = nltk.PunktSentenceTokenizer().tokenize(full_text_data)
+        results = []
+
+        for sentence in sentences:
+            cleaned_sentence = sentence.strip()
+            if cleaned_sentence:
+                if determine_language([cleaned_sentence]):
+                    sentiment_result = detailed_analysis([cleaned_sentence])
+                else:
+                    sc = classifiers.SpanishClassifier(model_name="sentiment_analysis")
+                    result_classifier = sc.predict(cleaned_sentence)
+                    sentiment_result = {
+                        'pos': result_classifier.get('positive', 0.0),
+                        'neg': result_classifier.get('negative', 0.0),
+                        'neu': result_classifier.get('neutral', 0.0)
+                    }
+                results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
+
+        store_youtube_data(
+            request,
+            data={
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)}, # Store individual sentence results
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)},
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+    else:
+        note = "Enter link to yt video"
+        return render(request, 'realworld/textanalysis.html', {'note': note})
+    
+def youtube_comments_analysis(request):
+    if request.method == 'POST':
+        video_link = request.POST.get("vidlink", "")
+        full_text_data = get_top_liked_comments(video_link=video_link)
+
+        if not full_text_data:
+            return 404 # link didn't work
+        
+        # sentences = full_text_data.split('.')
+        sentences = nltk.sent_tokenize(full_text_data)
+        results = []
+
+        for sentence in sentences:
+            cleaned_sentence = sentence.strip()
+            if cleaned_sentence:
+                if determine_language([cleaned_sentence]):
+                    sentiment_result = detailed_analysis([cleaned_sentence])
+                else:
+                    sc = classifiers.SpanishClassifier(model_name="sentiment_analysis")
+                    result_classifier = sc.predict(cleaned_sentence)
+                    sentiment_result = {
+                        'pos': result_classifier.get('positive', 0.0),
+                        'neg': result_classifier.get('negative', 0.0),
+                        'neu': result_classifier.get('neutral', 0.0)
+                    }
+                if sentiment_result:
+                    results.append({'text': cleaned_sentence, 'sentiment': sentiment_result})
+
+        store_youtube_data(
+            request,
+            data={
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)}, # Store individual sentence results
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': calculate_average_sentiment(results),
+                'text': sentences,
+                'reviewsRatio': {i: res for i, res in enumerate(results)},
+                'totalReviews': len(results),
+                'showReviewsRatio': True
+            }
+        )
+    else:
+        note = "Enter link to yt video"
+        return render(request, 'realworld/textanalysis.html', {'note': note})
+
+def determine_language(texts):
+    try:
+        for text in texts:
+            lang = detect(text)
+            if lang != 'en':
+                return False
+        return True
+    except Exception as e:
+        # Handle potential exceptions when using langdetect
+        print(f"Error detecting language: {e}")
+        return False
+
+
+def fbanalysis(request):
+    if request.method == 'POST':
+        current_directory = os.path.dirname(__file__)
+        result = fb_sentiment_score()
+
+        csv_file_fb = 'fb_sentiment.csv'
+        csv_file_path = os.path.join(current_directory, csv_file_fb)
+
+        # Open the CSV file and read its content
+        with open(csv_file_path, 'r') as csv_file:
+            # Use DictReader to read CSV data into a list of dictionaries
+            csv_reader = csv.DictReader(csv_file)
+            data = [row for row in csv_reader]
+
+        text_dict = {"reviews": data}
+        print("text_dict:", text_dict["reviews"])
+        # Convert the list of dictionaries to a JSON array
+        # json_data = json.dumps(text_dict, indent=2)
+
+        reviews = []
+
+        for item in text_dict["reviews"]:
+            # print("item :",item)
+            reviews.append(item["FBPost"])
+        finalText = reviews
+
+        store_facebook_data(
+            request,
+            data={
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+    else:
+        note = "Please Enter the product blog link for analysis"
+        return render(
+            request,
+            'realworld/productanalysis.html',
+            {'note': note}
+        )
+
+
+def twitteranalysis(request):
+    if request.method == 'POST':
+        current_directory = os.path.dirname(__file__)
+        result = twitter_sentiment_score()
+
+        csv_file_fb = 'twitt.csv'
+        csv_file_path = os.path.join(current_directory, csv_file_fb)
+
+        # Open the CSV file and read its content
+        with open(csv_file_path, 'r') as csv_file:
+            # Use DictReader to read CSV data into a list of dictionaries
+            csv_reader = csv.DictReader(csv_file)
+            data = [row for row in csv_reader]
+
+        text_dict = {"reviews": data}
+        print("text_dict:", text_dict["reviews"])
+        # Convert the list of dictionaries to a JSON array
+        # json_data = json.dumps(text_dict, indent=2)
+
+        reviews = []
+
+        for item in text_dict["reviews"]:
+            # print("item :",item)
+            reviews.append(item["review"])
+        finalText = reviews
+
+        store_twitter_data(
+            request,
+            data={
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+    else:
+        note = "Please Enter the product blog link for analysis"
+        return render(
+            request,
+            'realworld/productanalysis.html',
+            {'note': note}
+        )
+
+
+def redditanalysis(request):
+    if request.method == 'POST':
+        blogname = request.POST.get("blogname", "")
+        # Get the Reddit post URL from the form
+        fetched_data = fetch_reddit_post(blogname)
+        # Fetch the Reddit post details
+
+        # Combine the fetched data (title, body, comments)
+        # into a single list for analysis
+        data = [
+            fetched_data["title"],
+            fetched_data["body"]
+        ] + fetched_data["comments"]
+        # Perform sentiment analysis
+        result = reddit_sentiment_score(data)
+
+        # Combine the title, body, and comments into a single
+        # list for displaying on the results page
+        reviews = [
+            f"Title: {fetched_data['title']}",
+            f"Body: {fetched_data['body']}"
+        ] + fetched_data["comments"]
+
+        store_reddit_data(
+            request,
+            data={
+                'sentiment': result,
+                'text': reviews,
+                'reviewsRatio': {},
+                'totalReviews': len(reviews),
+                'showReviewsRatio': False
+            }
+        )
+
+        return render(request, 'realworld/results.html', {
+            'sentiment': result,  # Sentiment analysis result
+            'text': reviews,  # Display the text analyzed
+            'reviewsRatio': {},  # Placeholder
+            'totalReviews': len(reviews),  # Total number of items analyzed
+            'showReviewsRatio': False
+        })
+    else:
+        note = "Enter the Reddit post URL for analysis"
+        return render(request, 'realworld/redditanalysis.html', {'note': note})
+
+
+def audioanalysis(request):
+    if request.method == 'POST':
+        file = request.FILES['audioFile']
+        fs = FileSystemStorage()
+        fs.save(file.name, file)
+        pathname = "sentimental_analysis/media/"
+        extension_name = file.name
+        extension_name = extension_name[len(extension_name) - 3:]
+        path = pathname + file.name
+        result = {}
+        destination_folder = 'sentimental_analysis/media/audio/'
+        shutil.copy(path, destination_folder)
+        useFile = destination_folder + file.name
+        text = speech_to_text(useFile)
+        finalText = text
+        result = detailed_analysis(text)
+
+        folder_path = 'sentimental_analysis/media/'
+        files = os.listdir(folder_path)
+        for file in files:
+            file_path = os.path.join(folder_path, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+        store_audio_analysis(
+            request,
+            data={
+                'sentiment': result,
+                'text': [finalText],
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+    else:
+        note = "Please Enter the audio file you want to analyze"
+        return render(request, 'realworld/audio.html', {'note': note})
+
+
+def livespeechanalysis(request):
+    if request.method == 'POST':
+        my_file_handle = open(
+            'sentimental_analysis/realworld/recordedAudio.txt')
+        audioFile = my_file_handle.read()
+        result = {}
+        text = speech_to_text(audioFile)
+
+        finalText = text
+        result = detailed_analysis(text)
+        folder_path = 'sentimental_analysis/media/recordedAudio/'
+        files = os.listdir(folder_path)
+        for file in files:
+            file_path = os.path.join(folder_path, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+        store_live_analysis(
+            request,
+            data={
+                'sentiment': result,
+                'text': [finalText],
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+        return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+
+
+@csrf_exempt
+def recordaudio(request):
+    if request.method == 'POST':
+        audio_file = request.FILES['liveaudioFile']
+        fs = FileSystemStorage()
+        fs.save(audio_file.name, audio_file)
+        folder_path = 'sentimental_analysis/media/'
+        files = os.listdir(folder_path)
+
+        pathname = "sentimental_analysis/media/"
+        extension_name = audio_file.name
+        extension_name = extension_name[len(extension_name) - 3:]
+        path = pathname + audio_file.name
+        audioName = audio_file.name
+        destination_folder = 'sentimental_analysis/media/recordedAudio/'
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
+        shutil.copy(path, destination_folder)
+        useFile = destination_folder + audioName
+        for file in files:
+            file_path = os.path.join(folder_path, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+        audio = AudioSegment.from_file(useFile)
+        audio = audio.set_sample_width(2)
+        audio = audio.set_frame_rate(44100)
+        audio = audio.set_channels(1)
+        audio.export(useFile, format='wav')
+
+        text_file_path = "sentimental_analysis/realworld/recordedAudio.txt"
+        with open(text_file_path, "w") as text_file:
+            text_file.write(useFile)
+
+        response = HttpResponse(
+            'Success! This is a 200 response.',
+            content_type='text/plain',
+            status=200
+        )
+        return response
+
+
+analysis_cache = AnalysisCache()
+
+
+def newsanalysis(request):
+    if request.method == 'POST':
+        topicname = request.POST.get("topicname", "")
+        scrapNews(topicname, 10)
+
+        f = r'sentimental_analysis/realworld/news.json'
+        with open(f, 'r') as json_file:
+            json_data = json.load(json_file)
+        news = []
+        for item in json_data:
+            news.append(item['Summary'])
+
+        cached_sentiment, cached_text = analysis_cache.get_analysis(topicname,
+                                                                    news
+                                                                    )
+
+        if cached_sentiment and cached_text:
+            print('loaded sentiment')
+            return render(request, 'realworld/results.html', {
+                'sentiment': cached_sentiment,
+                'text': cached_text,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            })
+
+        finalText = news
+        result = detailed_analysis(news)
+        print('cached sentiment')
+        analysis_cache.set_analysis(topicname, news, result, finalText)
+
+        store_news_analysis(
+            request,
+            data={
+                'sentiment': result,
+                'text': finalText,
+                'reviewsRatio': {},
+                'totalReviews': 1,
+                'showReviewsRatio': False
+            }
+        )
+
+        return render(request, 'realworld/results.html', {
+            'sentiment': result,
+            'text': finalText,
+            'reviewsRatio': {},
+            'totalReviews': 1,
+            'showReviewsRatio': False
+        })
+
+    else:
+        return render(request, 'realworld/index.html')
+
+
+def speech_to_text(filename):
+    r = sr.Recognizer()
+    with sr.AudioFile(filename) as source:
+        audio_data = r.record(source)
+        text = r.recognize_google(audio_data)
+        return text
+
+
+def sentiment_analyzer_scores(sentence):
+    analyser = SentimentIntensityAnalyzer()
+    score = analyser.polarity_scores(sentence)
+    return score
+
+
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    return dictionary.get(key, 0)
+
+
+@login_required
+def text_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Text_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+@login_required
+def image_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Image_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for image", status=404)
+
+    return render(
+            request,
+            'realworld/resultsimage.html',
+            {
+                'sentiment': analysis_data['sentiment'],
+                'text': analysis_data['text'],
+                'analyzed_image_path': analysis_data['analyzed_image_path']
+            }
+        )
+
+
+def news_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('News_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for news", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def document_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Doc_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for document", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def audio_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Audio_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for audio", status=404)
+
+    return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': analysis_data['sentiment'],
+                'text': analysis_data['text'],
+                'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+                'totalReviews': analysis_data.get('totalReviews', 1),
+                'showReviewsRatio': analysis_data.get(
+                    'showReviewsRatio',
+                    False
+                )
+            }
+        )
+
+
+def live_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Live_Speech', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse(
+            "Analysis data not found for live speech",
+            status=404
+        )
+
+    return render(
+            request,
+            'realworld/results.html',
+            {
+                'sentiment': analysis_data['sentiment'],
+                'text': analysis_data['text'],
+                'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+                'totalReviews': analysis_data.get('totalReviews', 1),
+                'showReviewsRatio': analysis_data.get(
+                    'showReviewsRatio',
+                    False
+                )
+            }
+        )
+
+
+def reddit_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Reddit', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for Reddit", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+def youtube_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Youtube', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse("Analysis data not found for Youtube", status=404)
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def twitter_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Twitter', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse(
+            "Analysis data not found for Twitter",
+            status=404
+        )
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def facebook_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Facebook', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse(
+            "Analysis data not found for Facebook",
+            status=404
+        )
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def product_history_detail(request, timestamp):
+    user = get_user(request)
+    username = user.username
+
+    # Define the directory path
+    directory_path = os.path.join(
+        "sentimental_analysis",
+        "media",
+        "user_data"
+    )
+    file_path = os.path.join(directory_path, f"{username}.json")
+
+    history_data = {}
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as json_file:
+            history_data = json.load(json_file)
+
+    # Find the specific analysis data by timestamp
+    analysis_data = history_data.get('Product_Analysis', {}).get(timestamp)
+
+    if analysis_data is None:
+        return HttpResponse(
+            "Analysis data not found for product",
+            status=404
+        )
+
+    return render(
+        request,
+        'realworld/results.html',
+        {
+            'sentiment': analysis_data['sentiment'],
+            'text': analysis_data['text'],
+            'reviewsRatio': analysis_data.get('reviewsRatio', {}),
+            'totalReviews': analysis_data.get('totalReviews', 1),
+            'showReviewsRatio': analysis_data.get('showReviewsRatio', False)
+        }
+    )
+
+
+def privacy_policy(request):
+    return render(request, 'realworld/privacy_policy.html')

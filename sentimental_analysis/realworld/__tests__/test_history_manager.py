@@ -57,7 +57,6 @@ class TestCreateStorage(unittest.TestCase):
             "Facebook": {},
             "Twitter": {},
             "Reddit": {},
-            "Youtube": {},
         }, mock_open())
 
 class TestStoreTextAnalysis(unittest.TestCase):
